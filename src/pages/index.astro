@@ -9,6 +9,10 @@ const selectedWork = [
     lead: 'Ideas que se vuelven sistemas.',
     text: 'Fundé Kaido Group para convertir problemas operativos en productos reales. Ahí nacen iniciativas como Relay, Pabilo y Linko Store: software que conecta atención, pagos y operación.',
     tags: ['Producto digital', 'Integraciones', 'IA aplicada'],
+    image: '/projects/kaido-group.png',
+    imageAlt: 'Página principal de Kaido Group',
+    url: 'https://kaidogroup.tech/',
+    action: 'Abrir Kaido Group',
     tone: 'kaido',
   },
   {
@@ -18,8 +22,10 @@ const selectedWork = [
     lead: 'Pagó. Confirmado.',
     text: 'Lo he construido prácticamente de punta a punta: una infraestructura para verificar pagos móviles y transferencias bancarias en Venezuela, con panel, enlaces de pago, API, SDK e integraciones para comercio electrónico.',
     tags: ['Payment infrastructure', 'API + SDK', 'Integraciones'],
+    image: '/projects/pabilo.png',
+    imageAlt: 'Página de verificación de pagos de Pabilo',
     url: 'https://pabilo.app',
-    action: 'Conocer Pabilo',
+    action: 'Abrir Pabilo',
     tone: 'pabilo',
   },
   {
@@ -64,7 +70,7 @@ const experiments = [
     text: 'Una sátira venezolana con decisiones, misiones, minijuegos y un barrio que cambia con cada partida.',
     image: '/projects/bombona-club.png',
     imageAlt: 'Bombona Club mostrando el barrio, recursos y un evento activo',
-    url: 'https://bombona-club.coral-raven-2614.chatgpt.site/',
+    url: 'https://bombona.andrusdiaz.dev/',
     futureHost: 'bombona.andrusdiaz.dev',
     mark: 'B',
   },
@@ -74,7 +80,7 @@ const experiments = [
     text: 'Un RPG de acción con biomas, amenazas, progresión y un mundo distinto en cada renacer.',
     image: '/projects/cronicas-slime.png',
     imageAlt: 'Crónicas del Slime mostrando al personaje, la aldea, enemigos y el mapa vivo',
-    url: 'https://cronicas-slime-aventura.coral-raven-2614.chatgpt.site/',
+    url: 'https://slime.andrusdiaz.dev/',
     futureHost: 'slime.andrusdiaz.dev',
     mark: 'S',
   },
@@ -82,6 +88,8 @@ const experiments = [
     title: 'Kazumi Sentinel',
     label: 'Trading research',
     text: 'Alertas y exploración de mercado con una regla clara: primero observar, validar y simular.',
+    image: '/projects/kazumi-sentinel.png',
+    imageAlt: 'Panel de operaciones paper de Kazumi Sentinel',
     mark: 'K',
   },
 ];
@@ -296,8 +304,8 @@ const buildArchive = [
             <p>{experiment.text}</p>
             {experiment.url && (
               <div class="experiment-actions">
-                <a href={experiment.url} target="_blank" rel="noopener noreferrer">Jugar ahora <span aria-hidden="true">↗</span></a>
-                <span><small>PRÓXIMAMENTE</small>{experiment.futureHost}</span>
+                <a href={experiment.url} target="_blank" rel="noopener noreferrer">{experiment.action ?? 'Jugar ahora'} <span aria-hidden="true">↗</span></a>
+                {experiment.futureHost && <span><small>EN LÍNEA</small>{experiment.futureHost}</span>}
               </div>
             )}
           </article>

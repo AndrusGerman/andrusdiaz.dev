@@ -7,7 +7,15 @@ resources:
   - deployment.yaml
   - service.yaml
   - ingress.yaml
+  - bombona.yaml
+  - slime.yaml
 images:
   - name: andrusdiaz-home
     newName: southamerica-east1-docker.pkg.dev/gen-lang-client-0331944990/kaido-group/andrusdiaz
-    newTag: 20260913-home-2
+    newTag: 20260913-home-5
+  - name: bombona
+    newName: southamerica-east1-docker.pkg.dev/gen-lang-client-0331944990/kaido-group/bombona
+    newTag: 20260913-games-1
+  - name: slime
+    newName: southamerica-east1-docker.pkg.dev/gen-lang-client-0331944990/kaido-group/slime
+    newTag: 20260913-games-1

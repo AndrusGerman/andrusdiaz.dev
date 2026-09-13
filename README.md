@@ -18,10 +18,10 @@ npm run build
 
 La imagen se publica como `southamerica-east1-docker.pkg.dev/gen-lang-client-0331944990/kaido-group/andrusdiaz:<tag>` y la home se despliega en el namespace Kubernetes `andrusdiaz` para `https://andrusdiaz.dev`.
 
-Los subdominios de proyectos se mantienen separados de la home. Los primeros previstos son:
+Los subdominios de proyectos se mantienen separados de la home. Subdominios publicados:
 
-- `bombona.andrusdiaz.dev`
-- `slime.andrusdiaz.dev`
+- [`bombona.andrusdiaz.dev`](https://bombona.andrusdiaz.dev/)
+- [`slime.andrusdiaz.dev`](https://slime.andrusdiaz.dev/)
 
 Detalles de infraestructura y autenticación: [k8s/README.md](k8s/README.md).
 
