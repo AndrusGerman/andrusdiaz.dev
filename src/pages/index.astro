@@ -70,6 +70,8 @@ const experiments = [
     text: 'Una sátira venezolana con decisiones, misiones, minijuegos y un barrio que cambia con cada partida.',
     image: '/projects/bombona-club.png',
     imageAlt: 'Bombona Club mostrando el barrio, recursos y un evento activo',
+    detailImage: '/projects/bombona-detail.png',
+    detailImageAlt: 'Bombona Club mostrando poderes, historias y misiones de la cuadra',
     url: 'https://bombona.andrusdiaz.dev/',
     futureHost: 'bombona.andrusdiaz.dev',
     mark: 'B',
@@ -306,6 +308,17 @@ const buildArchive = [
                 </div>
               )
             )}
+            {experiment.detailImage && (
+              experiment.url ? (
+                <a class="experiment-detail" href={experiment.url} target="_blank" rel="noopener noreferrer" aria-label={`Abrir ${experiment.title}`}>
+                  <img src={experiment.detailImage} alt={experiment.detailImageAlt} loading="lazy" width="1440" height="900" />
+                </a>
+              ) : (
+                <div class="experiment-detail">
+                  <img src={experiment.detailImage} alt={experiment.detailImageAlt} loading="lazy" width="1440" height="900" />
+                </div>
+              )
+            )}
             <h3>{experiment.title}</h3>
             <p>{experiment.text}</p>
             {experiment.url && (
@@ -342,8 +355,9 @@ const buildArchive = [
         <div class="contact-meta"><span>06 / CONTINUARÁ</span><span>@ANDRUSCODEX</span></div>
         <h2>No terminé.<br />Solo se acabó<br /><em>esta página.</em></h2>
         <div class="contact-bottom">
-          <p>El archivo sigue creciendo. En GitHub están los repositorios públicos; en LinkedIn, el recorrido. Lo próximo probablemente ya está compilando en alguna carpeta.</p>
+          <p>El archivo sigue creciendo. En GitHub están los repositorios públicos; en LinkedIn, el recorrido. Si quieres conversar o construir algo, escríbeme a <a href="mailto:contacto@andrusdiaz.dev">contacto@andrusdiaz.dev</a>.</p>
           <div class="contact-actions">
+            <a class="button button-light" href="mailto:contacto@andrusdiaz.dev">Ponte en contacto <span aria-hidden="true">↗</span></a>
             <a class="button button-light" href="https://github.com/AndrusGerman/" target="_blank" rel="noopener noreferrer">Seguir excavando en GitHub <span aria-hidden="true">↗</span></a>
             <a class="text-action text-action-light" href="https://www.linkedin.com/in/andruscodex/" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
           </div>
