@@ -296,9 +296,15 @@ const buildArchive = [
             <div class="experiment-mark" aria-hidden="true">{experiment.mark}</div>
             <span>{experiment.label}</span>
             {experiment.image && (
-              <a class="experiment-visual" href={experiment.url} target="_blank" rel="noopener noreferrer" aria-label={`Abrir ${experiment.title}`}>
-                <img src={experiment.image} alt={experiment.imageAlt} loading="lazy" width="1440" height="900" />
-              </a>
+              experiment.url ? (
+                <a class="experiment-visual" href={experiment.url} target="_blank" rel="noopener noreferrer" aria-label={`Abrir ${experiment.title}`}>
+                  <img src={experiment.image} alt={experiment.imageAlt} loading="lazy" width="1440" height="900" />
+                </a>
+              ) : (
+                <div class="experiment-visual">
+                  <img src={experiment.image} alt={experiment.imageAlt} loading="lazy" width="1440" height="900" />
+                </div>
+              )
             )}
             <h3>{experiment.title}</h3>
             <p>{experiment.text}</p>
