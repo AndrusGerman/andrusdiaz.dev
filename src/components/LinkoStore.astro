@@ -1,0 +1,48 @@
+---
+const stock = [
+  { name: 'Lámpara Aura', category: 'Iluminación', count: '24', price: '$45,00', shape: 'lamp' },
+  { name: 'Silla Arco', category: 'Mobiliario', count: '12', price: '$85,00', shape: 'chair' },
+  { name: 'Florero Terra', category: 'Decoración', count: '36', price: '$18,00', shape: 'vase' },
+];
+---
+<article id="linko" class="product-case linko-case wrap">
+  <div class="case-heading">
+    <div class="product-wordmark"><span class="linko-symbol" aria-hidden="true">⊞</span>linko<span class="linko-store-label">STORE</span><span class="product-number">/ 003</span></div>
+    <span class="product-category">PUNTO DE VENTA + GESTIÓN COMERCIAL</span>
+  </div>
+  <div class="product-grid">
+    <div class="product-story">
+      <span class="mini-label">CADA PRODUCTO, CADA VENTA, CADA SUCURSAL.</span>
+      <h3>Tu negocio crece.<br/>El control<br/><em>se queda.</em></h3>
+      <p>Del mostrador al almacén, Linko Store reúne las piezas de tu operación comercial: punto de venta, catálogo, inventario, clientes y sucursales en una misma plataforma.</p>
+      <p>Registra ventas, consulta existencias y sigue los movimientos de tus productos. Organiza a tu equipo con roles y permisos, y revisa los reportes para entender cómo se mueve tu negocio.</p>
+      <ul class="feature-list">
+        <li><span>01</span> Punto de venta, pedidos y facturación</li>
+        <li><span>02</span> Inventario, almacenes y múltiples sucursales</li>
+        <li><span>03</span> Clientes, equipo y reportes comerciales</li>
+      </ul>
+      <a class="text-link" href="https://linko.store/" target="_blank" rel="noopener noreferrer">Explorar Linko Store <span>↗</span></a>
+    </div>
+    <div class="linko-demo product-demo">
+      <div class="demo-topline"><span>LINKO STORE / TU OPERACIÓN, A LA VISTA</span><span class="demo-pill"><i></i> Vista ilustrativa</span></div>
+      <div class="store-window">
+        <div class="store-toolbar"><b>⊞ linko<span>STORE</span></b><span>Casa estudio <i>⌄</i></span><span class="store-user">CE</span></div>
+        <div class="store-workspace">
+          <aside class="store-sidebar"><span>MI NEGOCIO</span><b>⊞ Resumen</b><span>↗ Ventas</span><span>▤ Inventario</span><span>◎ Clientes</span><span>⌂ Sucursales</span><span>▥ Reportes</span></aside>
+          <div class="store-content">
+            <div class="store-title"><div><small>TODO EN SU LUGAR.</small><h4>Una vista. Tu negocio.</h4></div><span>Sucursal principal ⌄</span></div>
+            <div class="store-metrics"><div><span>PRODUCTOS</span><strong>03</strong><small>En este catálogo</small></div><div><span>EXISTENCIAS</span><strong>72</strong><small>Unidades disponibles</small></div><div><span>SUCURSALES</span><strong>02</strong><small>Una misma operación</small></div></div>
+            <div class="store-table-title"><b>Tu inventario</b><span>Catálogo de ejemplo ↗</span></div>
+            <div class="store-table" role="table" aria-label="Inventario de ejemplo de Linko Store">
+              <div class="store-table-head" role="row"><span role="columnheader">PRODUCTO</span><span role="columnheader">STOCK</span><span role="columnheader">PRECIO</span></div>
+              {stock.map(item => <div class="store-row" role="row"><div role="cell"><div class={`store-object ${item.shape}`} aria-hidden="true"><i></i></div><span><b>{item.name}</b><small>{item.category}</small></span></div><span role="cell" class="stock-count">{item.count} <i>uds.</i></span><span role="cell">{item.price}</span></div>)}
+            </div>
+            <div class="store-bottom"><span><i></i> Inventario organizado</span><span>Ventas + existencias + reportes</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="store-ticket"><span class="ticket-icon">✓</span><div><b>Cada movimiento cuenta.</b><span>Más claridad para tu próxima decisión.</span></div><span>↗</span></div>
+      <div class="demo-footer"><span>DATOS FICTICIOS / DEMOSTRACIÓN DE PRODUCTO</span><span>DEL MOSTRADOR AL ALMACÉN ↗</span></div>
+    </div>
+  </div>
+</article>

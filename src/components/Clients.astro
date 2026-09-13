@@ -1,0 +1,23 @@
+---
+const clients = ['NOVATECH', 'GRUPO ANDES', 'VELORA', 'MERCATTO', 'ORBITAL', 'DISTRICOM', 'LUMINA', 'BEXAR'];
+---
+
+<section class="overflow-hidden border-y border-white/5 py-12" aria-label="Clientes que confían en Kaido Group">
+  <div class="mx-auto max-w-7xl px-6">
+    <p data-reveal class="text-center text-xs font-semibold uppercase tracking-[0.3em] text-zinc-500">
+      Confían en nosotros
+    </p>
+  </div>
+
+  <!-- Marquee infinito (se duplica la lista para el loop) -->
+  <div class="marquee mt-8" data-reveal>
+    <ul class="animate-marquee flex w-max items-center gap-x-16">
+      {clients.map((c) => (
+        <li class="whitespace-nowrap text-lg font-extrabold tracking-widest text-zinc-600 transition-colors hover:text-accent-300">{c}</li>
+      ))}
+      {clients.map((c) => (
+        <li class="whitespace-nowrap text-lg font-extrabold tracking-widest text-zinc-600 transition-colors hover:text-accent-300" aria-hidden="true">{c}</li>
+      ))}
+    </ul>
+  </div>
+</section>

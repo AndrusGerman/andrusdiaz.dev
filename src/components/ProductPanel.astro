@@ -1,0 +1,60 @@
+---
+interface Props {
+  index: string;
+  name: string;
+  tagline: string;
+  description: string;
+  features: string[];
+  accent: 'linco' | 'relay' | 'pabilo' | 'marketing';
+}
+
+const { index, name, tagline, description, features, accent } = Astro.props;
+
+const accents = {
+  linco: { text: 'text-linco', border: 'border-linco/30', bg: 'bg-linco/10', glow: 'bg-linco/20' },
+  relay: { text: 'text-relay', border: 'border-relay/30', bg: 'bg-relay/10', glow: 'bg-relay/20' },
+  pabilo: { text: 'text-pabilo', border: 'border-pabilo/30', bg: 'bg-pabilo/10', glow: 'bg-pabilo/20' },
+  marketing: { text: 'text-marketing', border: 'border-marketing/30', bg: 'bg-marketing/10', glow: 'bg-marketing/20' },
+} as const;
+
+const a = accents[accent];
+---
+
+<article
+  data-product-panel
+  class="product-panel flex items-center justify-center px-6 py-20"
+  aria-label={`Producto ${name}`}
+>
+  <!-- Glow de acento -->
+  <div class={`pointer-events-none absolute left-1/2 top-1/2 h-[36rem] w-[36rem] -translate-x-1/2 -translate-y-1/2 rounded-full ${a.glow} blur-[140px]`} aria-hidden="true"></div>
+
+  <div class="relative z-10 mx-auto grid w-full max-w-6xl items-center gap-10 lg:grid-cols-2 lg:gap-16">
+    <!-- Texto -->
+    <div>
+      <span data-stagger class={`text-sm font-bold tracking-[0.3em] ${a.text}`}>{index}</span>
+      <h3 data-stagger class="mt-3 text-4xl font-extrabold tracking-tight text-white sm:text-5xl">{name}</h3>
+      <p data-stagger class={`mt-2 text-lg font-semibold ${a.text}`}>{tagline}</p>
+      <p data-stagger class="mt-5 max-w-lg leading-relaxed text-slate-400">{description}</p>
+
+      <ul class="mt-7 space-y-3">
+        {features.map((f) => (
+          <li data-stagger class="flex items-start gap-3 text-sm text-slate-300">
+            <svg class={`mt-0.5 h-5 w-5 shrink-0 ${a.text}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 6 9 17l-5-5" />
+            </svg>
+            {f}
+          </li>
+        ))}
+      </ul>
+
+      <a
+        data-stagger
+        href="#contacto"
+        data-magnetic
+        class={`mt-9 inline-block rounded-full border ${a.border} ${a.bg} px-7 py-3 text-sm font-bold ${a.text} backdrop-blur transition-transform hover:scale-105`}
+      >
+        Conocer {name} ?
+      </a>
+    </div>
+  </div>
+</article>

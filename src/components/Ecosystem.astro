@@ -1,0 +1,96 @@
+---
+---
+
+<section id="ecosistema" class="relative overflow-hidden py-28" aria-label="Ecosistema interconectado">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="text-center">
+      <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+        Un ecosistema <span class="bg-gradient-to-r from-accent-200 to-accent-500 bg-clip-text text-transparent">interconectado</span>
+      </h2>
+      <p class="mx-auto mt-4 max-w-2xl text-slate-400">
+        Cada solución potencia a las demás. Los datos fluyen entre ventas, mensajería, pagos y marketing
+        para darte una visión 360° de tu negocio.
+      </p>
+    </div>
+
+    <!-- Diagrama de nodos: 3D con fallback SVG -->
+    <div class="relative mx-auto mt-16 max-w-3xl" data-ecosystem>
+      <!-- Escena 3D (se muestra cuando Three.js inicializa) -->
+      <div id="ecosystem-3d-wrap" class="relative hidden aspect-[3/2] w-full" aria-hidden="true">
+        <canvas id="ecosystem-3d" class="absolute inset-0 h-full w-full"></canvas>
+      </div>
+
+      <!-- Fallback SVG (sin JS / reduced-motion) -->
+      <div id="ecosystem-fallback">
+      <svg viewBox="0 0 600 400" class="w-full" role="img" aria-label="Diagrama de conexión entre los cuatro productos de Kaido Group">
+        <!-- Líneas de conexión -->
+        <g stroke-width="1.5" fill="none" opacity="0.7">
+          <path data-link d="M300 200 L150 100" style="stroke: rgb(var(--accent-300))" />
+          <path data-link d="M300 200 L450 100" style="stroke: rgb(var(--accent-400))" />
+          <path data-link d="M300 200 L150 300" style="stroke: rgb(var(--accent-500))" />
+          <path data-link d="M300 200 L450 300" style="stroke: rgb(var(--accent-200))" />
+          <path data-link d="M150 100 L450 100" stroke="#ffffff" opacity="0.15" />
+          <path data-link d="M150 300 L450 300" stroke="#ffffff" opacity="0.15" />
+          <path data-link d="M150 100 L150 300" stroke="#ffffff" opacity="0.15" />
+          <path data-link d="M450 100 L450 300" stroke="#ffffff" opacity="0.15" />
+        </g>
+
+        <!-- Nodo central -->
+        <g data-node>
+          <circle cx="300" cy="200" r="46" stroke-width="1.5" style="fill: rgb(var(--surface)); stroke: rgb(var(--accent-500)); stroke-opacity: 0.4" />
+          <circle cx="300" cy="200" r="46" fill="url(#coreGrad)" opacity="0.25" />
+          <text x="300" y="196" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="800" font-family="inherit">KAIDO</text>
+          <text x="300" y="212" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="inherit">CORE</text>
+        </g>
+
+        <!-- Nodos de producto -->
+        <g data-node>
+          <circle cx="150" cy="100" r="34" stroke-width="1.5" style="fill: rgb(var(--surface)); stroke: rgb(var(--accent-300))" />
+          <text x="150" y="97" text-anchor="middle" font-size="11" font-weight="700" font-family="inherit" style="fill: rgb(var(--accent-300))">Linko</text>
+          <text x="150" y="110" text-anchor="middle" font-size="11" font-weight="700" font-family="inherit" style="fill: rgb(var(--accent-300))">Store</text>
+        </g>
+        <g data-node>
+          <circle cx="450" cy="100" r="34" stroke-width="1.5" style="fill: rgb(var(--surface)); stroke: rgb(var(--accent-400))" />
+          <text x="450" y="104" text-anchor="middle" font-size="11" font-weight="700" font-family="inherit" style="fill: rgb(var(--accent-400))">Relay</text>
+        </g>
+        <g data-node>
+          <circle cx="150" cy="300" r="34" stroke-width="1.5" style="fill: rgb(var(--surface)); stroke: rgb(var(--accent-500))" />
+          <text x="150" y="304" text-anchor="middle" font-size="11" font-weight="700" font-family="inherit" style="fill: rgb(var(--accent-500))">Pabilo</text>
+        </g>
+        <g data-node>
+          <circle cx="450" cy="300" r="34" stroke-width="1.5" style="fill: rgb(var(--surface)); stroke: rgb(var(--accent-200))" />
+          <text x="450" y="297" text-anchor="middle" font-size="10" font-weight="700" font-family="inherit" style="fill: rgb(var(--accent-200))">Linko</text>
+          <text x="450" y="310" text-anchor="middle" font-size="10" font-weight="700" font-family="inherit" style="fill: rgb(var(--accent-200))">Marketing</text>
+        </g>
+
+        <defs>
+          <radialGradient id="coreGrad" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0%" style="stop-color: rgb(var(--accent-500))" />
+            <stop offset="100%" style="stop-color: rgb(var(--accent-300))" stop-opacity="0" />
+          </radialGradient>
+        </defs>
+      </svg>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <dl class="mx-auto mt-16 grid max-w-4xl grid-cols-2 gap-6 text-center md:grid-cols-4">
+      <div data-stat class="rounded-2xl border border-white/10 bg-surface/50 p-6 backdrop-blur">
+        <dt class="text-xs font-semibold uppercase tracking-widest text-slate-500">Proyectos</dt>
+        <dd class="mt-2 text-3xl font-extrabold text-white" data-count="40" data-suffix="+">40+</dd>
+      </div>
+      <div data-stat class="rounded-2xl border border-white/10 bg-surface/50 p-6 backdrop-blur">
+        <dt class="text-xs font-semibold uppercase tracking-widest text-slate-500">Clientes</dt>
+        <dd class="mt-2 text-3xl font-extrabold text-white" data-count="25" data-suffix="+">25+</dd>
+      </div>
+      <div data-stat class="rounded-2xl border border-white/10 bg-surface/50 p-6 backdrop-blur">
+        <dt class="text-xs font-semibold uppercase tracking-widest text-slate-500">Automatización</dt>
+        <dd class="mt-2 text-3xl font-extrabold text-white">24/7</dd>
+      </div>
+      <div data-stat class="rounded-2xl border border-white/10 bg-surface/50 p-6 backdrop-blur">
+        <dt class="text-xs font-semibold uppercase tracking-widest text-slate-500">Motor</dt>
+        <dd class="mt-2 text-3xl font-extrabold text-white">IA</dd>
+      </div>
+    </dl>
+  </div>
+</section>

@@ -1,0 +1,348 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const selectedWork = [
+  {
+    number: '01',
+    category: 'FUNDADOR / PRODUCTO',
+    title: 'Kaido Group',
+    lead: 'Ideas que se vuelven sistemas.',
+    text: 'Fundé Kaido Group para convertir problemas operativos en productos reales. Ahí nacen iniciativas como Relay, Pabilo y Linko Store: software que conecta atención, pagos y operación.',
+    tags: ['Producto digital', 'Integraciones', 'IA aplicada'],
+    tone: 'kaido',
+  },
+  {
+    number: '02',
+    category: 'CREADOR / FINTECH',
+    title: 'Pabilo',
+    lead: 'Pagó. Confirmado.',
+    text: 'Lo he construido prácticamente de punta a punta: una infraestructura para verificar pagos móviles y transferencias bancarias en Venezuela, con panel, enlaces de pago, API, SDK e integraciones para comercio electrónico.',
+    tags: ['Payment infrastructure', 'API + SDK', 'Integraciones'],
+    url: 'https://pabilo.app',
+    action: 'Conocer Pabilo',
+    tone: 'pabilo',
+  },
+  {
+    number: '03',
+    category: 'COLABORACIÓN / OBSERVABILIDAD',
+    title: 'Diagnóstico',
+    lead: 'Ver lo que el sistema está diciendo.',
+    text: 'Trabajo de monitoreo para operación: paneles en Grafana y rastreo con Cloud Trace para que servicios, recorridos y puntos de atención sean visibles cuando toca investigar una incidencia.',
+    tags: ['Grafana', 'Cloud Trace', 'Monitoreo'],
+    image: '/projects/grafana-observability.png',
+    imageAlt: 'Panel genérico de observabilidad con métricas, servicios y trazas',
+    tone: 'diagnostico',
+  },
+  {
+    number: '04',
+    category: 'PRODUCTO EN LÍNEA',
+    title: 'Planning Poker',
+    lead: 'Estimación sin fricción.',
+    text: 'Una herramienta colaborativa en español para estimar historias desde móvil o escritorio. Usa un WebSocket por participante y recuperación de salas desde los clientes, sin base de datos ni Redis.',
+    tags: ['Next.js', 'WebSockets', 'Cloud Run'],
+    image: '/projects/planning-poker.png',
+    imageAlt: 'Página de Planning Poker con creación de sala y cartas de estimación',
+    url: 'https://planning-poker-449229867988.us-central1.run.app/',
+    action: 'Abrir Planning Poker',
+    tone: 'poker',
+  },
+  {
+    number: '05',
+    category: 'RESEARCH / AUTOMATIZACIÓN',
+    title: 'Kazumi Capital',
+    lead: 'Riesgo antes que impulso.',
+    text: 'Sistema de investigación para vigilar tokens de Solana, clasificar su salud estructural y ensayar decisiones en modo paper. La prioridad es medir liquidez, datos y salida antes de operar.',
+    tags: ['Solana', 'TypeScript', 'Data pipelines'],
+    tone: 'kazumi',
+  },
+];
+
+const experiments = [
+  {
+    title: 'Bombona Club',
+    label: 'Juego incremental · En línea',
+    text: 'Una sátira venezolana con decisiones, misiones, minijuegos y un barrio que cambia con cada partida.',
+    image: '/projects/bombona-club.png',
+    imageAlt: 'Bombona Club mostrando el barrio, recursos y un evento activo',
+    url: 'https://bombona-club.coral-raven-2614.chatgpt.site/',
+    futureHost: 'bombona.andrusdiaz.dev',
+    mark: 'B',
+  },
+  {
+    title: 'Crónicas del Slime',
+    label: 'RPG procedural · En línea',
+    text: 'Un RPG de acción con biomas, amenazas, progresión y un mundo distinto en cada renacer.',
+    image: '/projects/cronicas-slime.png',
+    imageAlt: 'Crónicas del Slime mostrando al personaje, la aldea, enemigos y el mapa vivo',
+    url: 'https://cronicas-slime-aventura.coral-raven-2614.chatgpt.site/',
+    futureHost: 'slime.andrusdiaz.dev',
+    mark: 'S',
+  },
+  {
+    title: 'Kazumi Sentinel',
+    label: 'Trading research',
+    text: 'Alertas y exploración de mercado con una regla clara: primero observar, validar y simular.',
+    mark: 'K',
+  },
+];
+
+const openSource = [
+  {
+    title: 'facebook-flutter',
+    language: 'Dart',
+    text: 'Una exploración de interfaz inspirada en Facebook con Flutter.',
+    url: 'https://github.com/AndrusGerman/facebook-flutter',
+  },
+  {
+    title: 'gocam',
+    language: 'Go',
+    text: 'Herramienta para tomar fotografías en Windows desde Go.',
+    url: 'https://github.com/AndrusGerman/gocam',
+  },
+  {
+    title: 'Bad-Apple-Golang',
+    language: 'Go',
+    text: 'Experimentación audiovisual escrita en Go.',
+    url: 'https://github.com/AndrusGerman/Bad-Apple-Golang',
+  },
+  {
+    title: 'Pabilo para WooCommerce',
+    language: 'PHP',
+    text: 'Gateway para pagos móviles y transferencias bancarias de Venezuela.',
+    url: 'https://github.com/AndrusGerman/pabilo-payment-gateway-for-woocommerce',
+  },
+];
+
+const buildArchive = [
+  ['Relay', 'CRM CONVERSACIONAL + IA'],
+  ['Pabilo SDK', 'TYPESCRIPT SDK'],
+  ['Pabilo × WooCommerce', 'PAYMENT GATEWAY'],
+  ['Pabilo × Odoo', 'ERP INTEGRATION'],
+  ['Linko Store', 'COMERCIO + INVENTARIO'],
+  ['Planning Poker', 'REAL-TIME COLLABORATION'],
+  ['Kazumi Sentinel', 'SOLANA RESEARCH'],
+  ['Bombona Club', 'JUEGO INCREMENTAL'],
+  ['RPG Slime', 'GAME EXPERIMENT'],
+  ['Grafana / Diagnóstico', 'OBSERVABILIDAD'],
+  ['Cloud Trace / Diagnóstico', 'DISTRIBUTED TRACING'],
+  ['gocam', 'GO + WINDOWS'],
+  ['Bad Apple Golang', 'GO EXPERIMENT'],
+  ['GamePad Linux Server', 'REAL-TIME INPUT API'],
+  ['Simulador de mosca', 'FLY-BRAIN / SIMULACIÓN', 'https://github.com/AndrusGerman/fly-brain'],
+  ['facebook-flutter', 'FLUTTER UI'],
+];
+---
+
+<BaseLayout
+  title="Andrus Díaz — Productos, sistemas y experimentos"
+  description="El archivo de cosas construidas por Andrus Díaz: productos digitales, infraestructura, observabilidad, código abierto y juegos."
+>
+  <a class="skip-link" href="#contenido">Ir al contenido</a>
+
+  <header class="site-header" data-header>
+    <a class="wordmark" href="#inicio" aria-label="Andrus Díaz, inicio">
+      <span class="wordmark-mark" aria-hidden="true">AD</span>
+      <span>ANDRUS<br />DÍAZ</span>
+    </a>
+
+    <nav class="desktop-nav" aria-label="Navegación principal">
+      <a href="#proyectos">Proyectos</a>
+      <a href="#archivo">Archivo</a>
+      <a href="#laboratorio">Laboratorio</a>
+    </nav>
+
+    <a class="header-link" href="#proyectos">Abrir archivo <span aria-hidden="true">↘</span></a>
+    <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-nav" data-menu-toggle>
+      <span></span><span></span>
+    </button>
+    <nav id="mobile-nav" class="mobile-nav" aria-label="Navegación móvil" hidden data-mobile-nav>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#archivo">Archivo</a>
+      <a href="#laboratorio">Laboratorio</a>
+      <a href="https://github.com/AndrusGerman/" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+    </nav>
+  </header>
+
+  <main id="contenido">
+    <section id="inicio" class="hero section-shell">
+      <div class="hero-meta" data-reveal>
+        <span>ANDRUSCODEX / BUILD LOG</span>
+        <span>VENEZUELA · INTERNET · CURIOSIDAD</span>
+      </div>
+
+      <div class="hero-layout">
+        <div class="hero-copy" data-reveal>
+          <p class="eyebrow">FOUNDER · INGENIERO · MAKER · CURIOSO COMPULSIVO</p>
+          <h1>Lo imagino.<br /><em>Lo hago realidad.</em></h1>
+          <p class="intro">Soy Andrus Díaz. Una idea puede terminar convertida en una empresa, un producto financiero, infraestructura, automatización, una herramienta o un juego. La forma cambia; el impulso es el mismo: entenderla, construirla y hacer que exista.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#proyectos">Recorrer el archivo <span aria-hidden="true">↓</span></a>
+            <a class="text-action" href="https://github.com/AndrusGerman/" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+
+        <aside class="archive-card" aria-label="Archivo personal de proyectos de Andrus Díaz" data-reveal>
+          <div class="archive-topline"><span>AD / ARCHIVE</span><span>EST. 2015</span></div>
+          <div class="archive-monogram" aria-hidden="true"><span>A</span><i>/</i><span>D</span></div>
+          <p>PRODUCT / INFRA / FINTECH / GAMES / WHATEVER WORKS</p>
+          <div class="archive-catalog">
+            <span>GO</span><span>K8S</span><span>TS</span><span>FLUTTER</span><span>LINUX</span><span>POSTGRES</span>
+          </div>
+          <div class="archive-foot"><span>@ANDRUSCODEX</span><span>KEEP BUILDING ↗</span></div>
+        </aside>
+      </div>
+
+      <div class="hero-foot" data-reveal>
+        <span>FOUNDER @ KAIDO GROUP</span>
+        <span>66 REPOSITORIOS PÚBLICOS</span>
+        <a href="#proyectos">MIRA LO QUE HE CONSTRUIDO <b aria-hidden="true">↘</b></a>
+      </div>
+    </section>
+
+    <div class="signal-strip" aria-label="Tecnologías y disciplinas">
+      <div>
+        <span>GO <i>✳</i> KUBERNETES <i>✳</i> TYPESCRIPT <i>✳</i> POSTGRESQL <i>✳</i> OBSERVABILIDAD <i>✳</i> PRODUCTO DIGITAL <i>✳</i></span>
+        <span aria-hidden="true">GO <i>✳</i> KUBERNETES <i>✳</i> TYPESCRIPT <i>✳</i> POSTGRESQL <i>✳</i> OBSERVABILIDAD <i>✳</i> PRODUCTO DIGITAL <i>✳</i></span>
+        <span aria-hidden="true">GO <i>✳</i> KUBERNETES <i>✳</i> TYPESCRIPT <i>✳</i> POSTGRESQL <i>✳</i> OBSERVABILIDAD <i>✳</i> PRODUCTO DIGITAL <i>✳</i></span>
+      </div>
+    </div>
+
+    <section id="perfil" class="profile section-shell section-space">
+      <div class="section-kicker" data-reveal><span>01</span> PERFIL</div>
+      <div class="profile-grid">
+        <h2 data-reveal>No me interesa<br />solo que funcione.<br /><em>Me importa poder<br />entenderlo.</em></h2>
+        <div class="profile-copy" data-reveal>
+          <p>Trabajo donde se encuentran el código, la infraestructura y las decisiones de producto. Puedo pasar de un servicio en Go a un clúster, de ahí a un dashboard y terminar afinando la interacción que ve el usuario.</p>
+          <p>También soy la clase de persona a la que le llama la atención cualquier cosa con cables, luces o una placa. Por eso mi archivo mezcla sistemas serios con juegos, cámaras, controles remotos y experimentos extraños.</p>
+          <a class="text-action" href="https://www.linkedin.com/in/andruscodex/" target="_blank" rel="noopener noreferrer">Ver perfil de LinkedIn <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+      <div class="principles" data-reveal>
+        <article><span>01 /</span><h3>Entender el sistema.</h3><p>Antes de agregar capas, sigo el flujo, los datos y las restricciones reales.</p></article>
+        <article><span>02 /</span><h3>Hacerlo operable.</h3><p>Un producto termina de construirse cuando alguien puede observarlo, mantenerlo y confiar en él.</p></article>
+        <article><span>03 /</span><h3>Aprender haciendo.</h3><p>Los experimentos, los juegos y el código público alimentan el siguiente sistema.</p></article>
+      </div>
+    </section>
+
+    <section id="proyectos" class="work-section">
+      <div class="section-shell work-heading" data-reveal>
+        <div class="section-kicker section-kicker-light"><span>02</span> LOS GRANDES</div>
+        <div class="heading-row">
+          <h2>No son conceptos.<br /><em>Los construí.</em></h2>
+          <p>Productos propios, sistemas para operación real y experimentos que terminaron creciendo mucho más de lo previsto.</p>
+        </div>
+      </div>
+
+      <div class="work-list section-shell">
+        {selectedWork.map((project) => (
+          <article class={`project-card ${project.tone} ${project.image ? 'has-image' : ''}`} data-reveal>
+            <div class="project-index"><span>{project.number}</span><span>{project.category}</span></div>
+            {project.image && (
+              <div class="project-media">
+                <img src={project.image} alt={project.imageAlt} loading="lazy" width="1440" height="900" />
+              </div>
+            )}
+            <div class="project-content">
+              <div>
+                <h3>{project.title}</h3>
+                <p class="project-lead">{project.lead}</p>
+              </div>
+              <p class="project-text">{project.text}</p>
+            </div>
+            <div class="project-bottom">
+              <ul aria-label={`Tecnologías de ${project.title}`}>{project.tags.map((tag) => <li>{tag}</li>)}</ul>
+              {project.url && <a class="project-link" href={project.url} target="_blank" rel="noopener noreferrer">{project.action} <span aria-hidden="true">↗</span></a>}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section id="archivo" class="build-archive section-shell section-space">
+      <div class="archive-heading" data-reveal>
+        <div class="section-kicker"><span>03</span> ÍNDICE DE CONSTRUCCIONES</div>
+        <h2>Y esto es solo<br /><em>lo que cabe aquí.</em></h2>
+        <p>Productos, integraciones, infraestructura, herramientas y juegos. Cada nombre debajo terminó convertido en software.</p>
+      </div>
+      <ol class="build-wall" data-reveal>
+        {buildArchive.map(([title, type, url], index) => (
+          <li>
+            <span class="build-number">{String(index + 1).padStart(2, '0')}</span>
+            <strong>{title}</strong>
+            <span class="build-type">{type}</span>
+            {url && <a class="build-item-link" href={url} target="_blank" rel="noopener noreferrer">Abrir repositorio <span aria-hidden="true">↗</span></a>}
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section id="laboratorio" class="lab-section section-shell section-space">
+      <div class="lab-heading" data-reveal>
+        <div class="section-kicker"><span>04</span> LABORATORIO</div>
+        <p class="eyebrow">TAMBIÉN HAGO COSAS POR EL PLACER DE ENTENDERLAS.</p>
+        <h2>El juego es una forma<br />seria de <em>experimentar.</em></h2>
+      </div>
+      <div class="experiment-grid">
+        {experiments.map((experiment, index) => (
+          <article class={`experiment experiment-${index + 1}`} data-reveal>
+            <div class="experiment-mark" aria-hidden="true">{experiment.mark}</div>
+            <span>{experiment.label}</span>
+            {experiment.image && (
+              <a class="experiment-visual" href={experiment.url} target="_blank" rel="noopener noreferrer" aria-label={`Abrir ${experiment.title}`}>
+                <img src={experiment.image} alt={experiment.imageAlt} loading="lazy" width="1440" height="900" />
+              </a>
+            )}
+            <h3>{experiment.title}</h3>
+            <p>{experiment.text}</p>
+            {experiment.url && (
+              <div class="experiment-actions">
+                <a href={experiment.url} target="_blank" rel="noopener noreferrer">Jugar ahora <span aria-hidden="true">↗</span></a>
+                <span><small>PRÓXIMAMENTE</small>{experiment.futureHost}</span>
+              </div>
+            )}
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="open-source-section section-shell section-space">
+      <div class="open-source-heading" data-reveal>
+        <div class="section-kicker"><span>05</span> CÓDIGO PÚBLICO</div>
+        <p>Parte de mi trabajo está abierto para explorar, aprender y reutilizar.</p>
+        <a class="button button-outline" href="https://github.com/AndrusGerman/" target="_blank" rel="noopener noreferrer">Todos los repositorios <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="repo-list" data-reveal>
+        {openSource.map((repo) => (
+          <a href={repo.url} target="_blank" rel="noopener noreferrer" class="repo-row">
+            <span class="repo-language"><i></i>{repo.language}</span>
+            <span class="repo-name">{repo.title}</span>
+            <span class="repo-description">{repo.text}</span>
+            <span class="repo-arrow" aria-hidden="true">↗</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section id="contacto" class="contact-section closing-section">
+      <div class="section-shell contact-shell" data-reveal>
+        <div class="contact-meta"><span>06 / CONTINUARÁ</span><span>@ANDRUSCODEX</span></div>
+        <h2>No terminé.<br />Solo se acabó<br /><em>esta página.</em></h2>
+        <div class="contact-bottom">
+          <p>El archivo sigue creciendo. En GitHub están los repositorios públicos; en LinkedIn, el recorrido. Lo próximo probablemente ya está compilando en alguna carpeta.</p>
+          <div class="contact-actions">
+            <a class="button button-light" href="https://github.com/AndrusGerman/" target="_blank" rel="noopener noreferrer">Seguir excavando en GitHub <span aria-hidden="true">↗</span></a>
+            <a class="text-action text-action-light" href="https://www.linkedin.com/in/andruscodex/" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer section-shell">
+    <a class="wordmark" href="#inicio" aria-label="Volver al inicio"><span class="wordmark-mark" aria-hidden="true">AD</span><span>ANDRUS<br />DÍAZ</span></a>
+    <p>Ideas, productos, infraestructura y experimentos hechos realidad.</p>
+    <span>© {new Date().getFullYear()}</span>
+  </footer>
+
+  <script>import '../scripts/portfolio';</script>
+</BaseLayout>

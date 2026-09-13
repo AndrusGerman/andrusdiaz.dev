@@ -1,0 +1,24 @@
+---
+const products = [
+  { id: 'relay', name: 'Relay', symbol: '↗', verb: 'Conversaciones que avanzan.', detail: 'IA, clientes y pedidos en una misma conversación.', action: 'Descubrir Relay' },
+  { id: 'pabilo', name: 'Pabilo', symbol: '✳', verb: 'De un pago a una certeza.', detail: 'Verificación de pagos para una operación más clara.', action: 'Descubrir Pabilo' },
+  { id: 'linko', name: 'Linko Store', symbol: '⊞', verb: 'Todo tu negocio, a la vista.', detail: 'Ventas, inventario y sucursales bajo un mismo techo.', action: 'Descubrir Linko Store' },
+];
+---
+<div class="hero-art lab-stage" data-product="relay">
+  <div class="lab-glow" aria-hidden="true"></div>
+  <div class="lab-grid" aria-hidden="true"></div>
+  <div class="lab-top"><span><i></i> KAIDO / PRODUCT LAB</span><span>EST. VENEZUELA ↗</span></div>
+  <div class="lab-type" aria-hidden="true">CREATE.</div>
+  <div class="sculpture-fallback" aria-hidden="true"><div></div><div></div><div></div></div>
+  <canvas id="kaido-sculpture" aria-label="Escultura interactiva del ecosistema Kaido"></canvas>
+  <div class="lab-stamp" aria-hidden="true"><span>IDEAS EN</span><b>órbita.</b><span>PRODUCTOS EN MARCHA</span></div>
+  <span class="lab-axis" aria-hidden="true">X — Y — Z / EXPLORA LAS POSIBILIDADES</span>
+  <div class="lab-interface">
+    <div class="lab-selector" role="tablist" aria-label="Explorar productos de Kaido">
+      {products.map((p,i)=><button type="button" role="tab" id={`lab-tab-${p.id}`} data-lab-product={p.id} aria-selected={i===0?'true':'false'} aria-controls={`lab-panel-${p.id}`} tabindex={i===0?0:-1}><span>{p.symbol}</span>{p.name}<i>0{i+1}</i></button>)}
+    </div>
+    {products.map((p,i)=><div id={`lab-panel-${p.id}`} class="lab-panel" role="tabpanel" aria-labelledby={`lab-tab-${p.id}`} hidden={i!==0}><div><h2>{p.verb}</h2><p>{p.detail}</p></div><a href={`#${p.id}`} aria-label={p.action}>↗</a></div>)}
+  </div>
+  <button class="motion-toggle" aria-pressed="false" aria-label="Pausar animación 3D">Pausar movimiento Ⅱ</button>
+</div>

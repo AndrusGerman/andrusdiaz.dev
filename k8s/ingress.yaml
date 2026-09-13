@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: andrusdiaz-home
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-graceandfavorvzla-services
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - andrusdiaz.dev
+      secretName: andrusdiaz-tls
+  rules:
+    - host: andrusdiaz.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: andrusdiaz-home
+                port:
+                  name: http

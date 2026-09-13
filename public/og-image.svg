@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Andrus Díaz — Lo imagino. Lo hago realidad.</title>
+  <desc id="desc">Imagen social de la página personal de Andrus Díaz.</desc>
+  <rect width="1200" height="630" fill="#0b0f1d"/>
+  <path d="M0 0h1200v630H0z" fill="url(#glow)" opacity=".7"/>
+  <g opacity=".12" stroke="#aab5cc">
+    <path d="M0 126h1200M0 252h1200M0 378h1200M0 504h1200"/>
+    <path d="M200 0v630M400 0v630M600 0v630M800 0v630M1000 0v630"/>
+  </g>
+  <circle cx="74" cy="72" r="27" fill="#d3f571"/>
+  <text x="74" y="79" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="-1" fill="#0b0f1d">AD</text>
+  <text x="118" y="64" font-family="monospace" font-size="15" font-weight="700" letter-spacing="2" fill="#f4f5ee">ANDRUS</text>
+  <text x="118" y="84" font-family="monospace" font-size="15" font-weight="700" letter-spacing="2" fill="#f4f5ee">DÍAZ</text>
+  <text x="1120" y="77" text-anchor="end" font-family="monospace" font-size="13" letter-spacing="2" fill="#aeb8c8">BUILD LOG / 2026</text>
+  <text x="65" y="184" font-family="monospace" font-size="14" letter-spacing="2" fill="#d3f571">FOUNDER · INGENIERO · MAKER · CURIOSO COMPULSIVO</text>
+  <text x="61" y="330" font-family="Arial, sans-serif" font-size="108" font-weight="700" letter-spacing="-7" fill="#f4f5ee">Lo imagino.</text>
+  <text x="61" y="438" font-family="Georgia, serif" font-size="112" font-style="italic" letter-spacing="-7" fill="#9f8cff">Lo hago realidad.</text>
+  <rect x="880" y="160" width="245" height="245" rx="18" fill="#9f8cff"/>
+  <rect x="895" y="175" width="245" height="245" rx="18" fill="#d3f571"/>
+  <text x="1017" y="338" text-anchor="middle" font-family="Arial, sans-serif" font-size="152" font-weight="700" letter-spacing="-13" fill="#0b0f1d">A/D</text>
+  <path d="M65 528h1070" stroke="#3b4760"/>
+  <text x="65" y="575" font-family="monospace" font-size="13" letter-spacing="2" fill="#aeb8c8">PRODUCTO · INFRAESTRUCTURA · FINTECH · JUEGOS · OPEN SOURCE</text>
+  <text x="1135" y="575" text-anchor="end" font-family="monospace" font-size="13" letter-spacing="1" fill="#d3f571">ANDRUSDIAZ.DEV ↗</text>
+  <defs>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="translate(935 265) rotate(90) scale(420 510)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2b3153"/>
+      <stop offset="1" stop-color="#0b0f1d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>

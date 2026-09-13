@@ -1,0 +1,23 @@
+{
+  "name": "andrusdiaz-home",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^5.13.0",
+    "gsap": "^3.13.0",
+    "three": "^0.185.1"
+  },
+  "devDependencies": {
+    "@astrojs/sitemap": "^3.5.1",
+    "@astrojs/tailwind": "^6.0.2",
+    "@types/three": "^0.185.4",
+    "tailwindcss": "^3.4.17"
+  }
+}

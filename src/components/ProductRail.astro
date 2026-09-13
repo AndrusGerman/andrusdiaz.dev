@@ -1,0 +1,11 @@
+---
+const products = [
+  {id:'relay',number:'01',symbol:'↗',name:'Relay',text:'Una conversación. La próxima venta.',label:'IA + CONVERSACIONES',tags:['WhatsApp','Telegram','IA']},
+  {id:'pabilo',number:'02',symbol:'✳',name:'Pabilo',text:'Tu cliente paga. Tú lo confirmas.',label:'VERIFICACIÓN DE PAGOS',tags:['Pagos','API','Enlaces']},
+  {id:'linko',number:'03',symbol:'⊞',name:'Linko Store',text:'El control detrás de cada venta.',label:'GESTIÓN COMERCIAL',tags:['Ventas','Stock','Sucursales']},
+];
+---
+<section class="product-rail wrap" aria-label="Explora nuestros tres productos">
+  <div class="rail-heading"><span class="mini-label">NO SOLO LOS IMAGINAMOS. LOS CONSTRUIMOS.</span><span>EXPLORA NUESTROS PRODUCTOS ↓</span></div>
+  <div class="rail-grid">{products.map(p=><a class={`rail-card rail-${p.id}`} href={`#${p.id}`}><div class="rail-meta"><span>0{p.number} / {p.label}</span><span>↗</span></div><div class="rail-art" aria-hidden="true"><span>{p.symbol}</span><i></i><i></i><i></i></div><div class="rail-caption"><div><h2>{p.name}</h2><p>{p.text}</p></div><span class="rail-arrow">↗</span></div><div class="rail-tags">{p.tags.map(t=><span>{t}</span>)}</div></a>)}</div>
+</section>
