@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 405" role="img" aria-labelledby="title desc">
+  <title id="title">AuraMesh</title>
+  <desc id="desc">Interfaz oscura de un estudio de luz espacial con líneas luminosas y controles gestuales.</desc>
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="55%" r="52%"><stop stop-color="#15255b"/><stop offset=".54" stop-color="#0a1030"/><stop offset="1" stop-color="#050611"/></radialGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#5cf4ff"/><stop offset=".52" stop-color="#a67dff"/><stop offset="1" stop-color="#ff70c5"/></linearGradient>
+    <linearGradient id="button" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#5cf4ff"/><stop offset=".5" stop-color="#9fb8ff"/><stop offset="1" stop-color="#e080ff"/></linearGradient>
+    <filter id="blur"><feGaussianBlur stdDeviation="9"/></filter>
+  </defs>
+  <rect width="720" height="405" fill="url(#glow)"/>
+  <g fill="#d5ddff" opacity=".4"><circle cx="58" cy="56" r="1"/><circle cx="140" cy="218" r="1"/><circle cx="253" cy="112" r="1"/><circle cx="425" cy="89" r="1"/><circle cx="655" cy="156" r="1"/><circle cx="602" cy="80" r="1"/><circle cx="84" cy="326" r="1"/></g>
+  <g transform="translate(26 21)"><rect width="220" height="76" rx="15" fill="#0b1127" fill-opacity=".82" stroke="#546080"/><path d="M20 28 31 22l11 6v13l-11 6-11-6zM20 28l11 6 11-6M31 34v13" fill="none" stroke="url(#line)" stroke-width="2"/><circle cx="31" cy="34" r="2.5" fill="#fff"/><text x="55" y="33" fill="#f1f5ff" font-family="system-ui,sans-serif" font-size="19" font-weight="800" letter-spacing="1.5">AURAMESH</text><text x="55" y="56" fill="#bac5da" font-family="system-ui,sans-serif" font-size="10" font-weight="600" letter-spacing="1.8">ESTUDIO DE LUZ ESPACIAL</text></g>
+  <g fill="none" stroke-linecap="round"><path d="M132 203 249 247 358 229 474 247 589 202" stroke="#7e8dce" stroke-width="1.5" opacity=".52" stroke-dasharray="4 7"/><path d="M85 223 261 276 355 247 456 274 634 210" stroke="url(#line)" stroke-width="2.4" filter="url(#blur)" opacity=".9"/><path d="M85 223 261 276 355 247 456 274 634 210" stroke="url(#line)" stroke-width="1.3"/><path d="M85 223 178 270 201 342M178 270 258 225 261 276M456 274 536 228 555 342M536 228 634 210" stroke="#7d93ff" opacity=".33"/><path d="M85 223 168 313 201 342M456 274 537 313 555 342" stroke="#ff78cb" opacity=".34"/></g>
+  <g fill="#5cf4ff"><circle cx="85" cy="223" r="4"/><circle cx="261" cy="276" r="4"/><circle cx="249" cy="247" r="4"/></g><g fill="#ff70c5"><circle cx="456" cy="274" r="4"/><circle cx="634" cy="210" r="4"/><circle cx="474" cy="247" r="4"/></g><circle cx="355" cy="247" r="6" fill="#fff"/><circle cx="355" cy="247" r="15" fill="#86eaff" opacity=".25"/>
+  <g transform="translate(26 315)"><rect width="668" height="72" rx="14" fill="#0b1127" fill-opacity=".88" stroke="#53617f"/><text x="17" y="23" fill="#aeb9cd" font-family="system-ui,sans-serif" font-size="10" font-weight="700" letter-spacing="1.2">MOTOR GESTUAL</text><text x="17" y="44" fill="#f4f6ff" font-family="system-ui,sans-serif" font-size="15" font-weight="700">Demo generativa</text><circle cx="644" cy="35" r="4" fill="#a6afbf"/><rect x="17" y="50" width="190" height="12" rx="6" fill="url(#button)"/><rect x="218" y="50" width="160" height="12" rx="6" fill="#18213b" stroke="#607094"/></g>
+</svg>
