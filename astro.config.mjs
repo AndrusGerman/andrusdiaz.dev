@@ -7,4 +7,12 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://andrusdiaz.dev',
   integrations: [tailwind(), sitemap()],
+  devToolbar: { enabled: false },
+  vite: {
+    optimizeDeps: {
+      disabled: true,
+      include: [],
+      noDiscovery: true,
+    },
+  },
 });

@@ -80,9 +80,10 @@ const products = [
 
     <!-- Indicador de progreso -->
     <div id="showcase-progress" class="absolute right-6 top-1/2 z-20 hidden -translate-y-1/2 flex-col gap-3" aria-hidden="true">
-      {products.map((p, i) => (
+      {products.map((product, i) => (
         <span
           data-progress-dot={i}
+          aria-label={product.name}
           class="h-2.5 w-2.5 rounded-full bg-white/20 transition-all duration-300"
         ></span>
       ))}

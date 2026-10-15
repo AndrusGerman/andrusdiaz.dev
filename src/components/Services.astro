@@ -1,5 +1,12 @@
 ---
-const services = [
+interface Service {
+  title: string;
+  description: string;
+  features: string[];
+  icon: 'ai' | 'code' | 'cart' | 'flow';
+}
+
+const services: Service[] = [
   {
     title: 'Inteligencia Artificial',
     description:
@@ -28,7 +35,7 @@ const services = [
     features: ['Flujos de venta por WhatsApp', 'Integración con CRM', 'Embudos de marketing automatizados'],
     icon: 'flow',
   },
-] as const;
+];
 ---
 
 <section id="servicios" class="relative py-28" aria-label="Servicios de la agencia">

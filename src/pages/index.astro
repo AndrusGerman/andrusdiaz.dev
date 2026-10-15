@@ -1,394 +1,288 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const selectedWork = [
+const experience = [
   {
-    number: '01',
-    category: 'FUNDADOR / PRODUCTO',
-    title: 'Kaido Group',
-    lead: 'Ideas que se vuelven sistemas.',
-    text: 'Fundé Kaido Group para convertir problemas operativos en productos reales. Ahí nacen iniciativas como Relay, Pabilo y Linko Store: software que conecta atención, pagos y operación.',
-    tags: ['Producto digital', 'Integraciones', 'IA aplicada'],
-    image: '/projects/kaido-group.png',
-    imageAlt: 'Página principal de Kaido Group',
-    url: 'https://kaidogroup.tech/',
-    action: 'Abrir Kaido Group',
-    tone: 'kaido',
+    period: '2025 — 2026',
+    company: 'InsightOne / Agnostiko',
+    location: 'Remoto',
+    role: 'SRE / Kubernetes',
+    summary: 'Operación observable para productos que no pueden depender de la intuición.',
+    details: [
+      'GKE, Kustomize, Ingress, PostgreSQL / Cloud SQL, Redis y External Secrets.',
+      'Métricas y spans HTTP/gRPC con OpenTelemetry; Grafana conectado a Cloud Monitoring y Logging.',
+      'SLO, auditoría, alertas Telegram, health/readiness, Prometheus, KEDA y circuit breaker.',
+    ],
+    accent: 'cyan',
   },
   {
-    number: '02',
-    category: 'CREADOR / FINTECH',
+    period: '2026',
+    company: 'Kaido',
+    location: 'Ecosistema propio',
+    role: 'Maker Founder SRE',
+    summary: 'Un laboratorio de producto donde la infraestructura también es parte de la idea.',
+    details: [
+      'linko.store, Pabilo y Kroma conviven como productos con una base operable.',
+      'k3s / Kubernetes, PostgreSQL con CloudNativePG, MongoDB, Grafana y Uptime Kuma.',
+      'Cloudflare Tunnels, WireGuard, OpenTelemetry y GitHub Actions para entregar y observar.',
+    ],
+    accent: 'lime',
+  },
+  {
+    period: '2024 — 2025',
+    company: 'Proper Business Solutions',
+    location: 'Panamá',
+    role: 'Automatización / IA aplicada',
+    summary: 'Convertir conversaciones operativas en decisiones que se puedan ejecutar.',
+    details: [
+      'Automatización de permisos por WhatsApp.',
+      'Consultas asistidas por IA y clasificación de incidentes.',
+    ],
+    accent: 'amber',
+  },
+  {
+    period: '2022 — 2024',
+    company: 'Kuarere (Babel)',
+    location: 'España',
+    role: 'Kubernetes / Backend',
+    summary: 'Migrar el terreno debajo de los microservicios sin detener el producto.',
+    details: [
+      'Kubernetes desde cero en VPS y migración desde Google App Engine.',
+      'Ahorro verificado de hasta 85.98% en infraestructura.',
+      'Despliegues de microservicios con Go, Angular, RabbitMQ y autenticación social.',
+    ],
+    accent: 'violet',
+  },
+  {
+    period: '2018 — 2022',
+    company: 'LinkoSoftware',
+    location: 'Venezuela',
+    role: 'Cloud / Producto',
+    summary: 'Sistemas de logística y operación conectados a la realidad del negocio.',
+    details: [
+      'AWS con autoscaling y load balancing.',
+      'Tracking de entregas, WebRTC, impresoras fiscales, tickets y cámaras.',
+      'Intranet con servidores locales para mantener el trabajo en movimiento.',
+    ],
+    accent: 'coral',
+  },
+];
+
+const projects = [
+  {
+    id: '01',
+    eyebrow: 'ECOSISTEMA / OPERACIÓN',
+    title: 'Kaido',
+    description: 'La capa común detrás de productos que necesitan identidad, pagos, ventas y una operación que se pueda mirar de frente.',
+    stack: 'k3s · PostgreSQL · MongoDB · Grafana',
+    status: 'en construcción · 2026',
+    accent: 'lime',
+  },
+  {
+    id: '02',
+    eyebrow: 'SAAS / MULTI-TENANT',
+    title: 'linko.store',
+    description: 'Ventas e inventario para equipos que necesitan una superficie simple y un backend preparado para crecer.',
+    stack: 'Go · Angular · CloudNativePG',
+    status: 'producto de Kaido',
+    accent: 'cyan',
+  },
+  {
+    id: '03',
+    eyebrow: 'PAGOS / VENEZUELA',
     title: 'Pabilo',
-    lead: 'Pagó. Confirmado.',
-    text: 'Lo he construido prácticamente de punta a punta: una infraestructura para verificar pagos móviles y transferencias bancarias en Venezuela, con panel, enlaces de pago, API, SDK e integraciones para comercio electrónico.',
-    tags: ['Payment infrastructure', 'API + SDK', 'Integraciones'],
-    image: '/projects/pabilo.png',
-    imageAlt: 'Página de verificación de pagos de Pabilo',
-    url: 'https://pabilo.app',
-    action: 'Abrir Pabilo',
-    tone: 'pabilo',
+    description: 'Verificación de pagos tipo Stripe para un contexto donde las transferencias y los métodos locales exigen otra lectura del sistema.',
+    stack: 'MongoDB · APIs · integraciones',
+    status: 'producto de Kaido',
+    accent: 'amber',
   },
   {
-    number: '03',
-    category: 'COLABORACIÓN / OBSERVABILIDAD',
-    title: 'Diagnóstico',
-    lead: 'Ver lo que el sistema está diciendo.',
-    text: 'Trabajo de monitoreo para operación: paneles en Grafana y rastreo con Cloud Trace para que servicios, recorridos y puntos de atención sean visibles cuando toca investigar una incidencia.',
-    tags: ['Grafana', 'Cloud Trace', 'Monitoreo'],
-    image: '/projects/grafana-observability.png',
-    imageAlt: 'Panel genérico de observabilidad con métricas, servicios y trazas',
-    tone: 'diagnostico',
+    id: '04',
+    eyebrow: 'IDENTIDAD / AUTH',
+    title: 'Kroma',
+    description: 'Identidad y autenticación como infraestructura compartida para los productos del ecosistema.',
+    stack: 'sesiones · acceso · confianza',
+    status: 'producto de Kaido',
+    accent: 'violet',
   },
   {
-    number: '04',
-    category: 'PRODUCTO EN LÍNEA',
-    title: 'Planning Poker',
-    lead: 'Estimación sin fricción.',
-    text: 'Una herramienta colaborativa en español para estimar historias desde móvil o escritorio. Usa un WebSocket por participante y recuperación de salas desde los clientes, sin base de datos ni Redis.',
-    tags: ['Next.js', 'WebSockets', 'Cloud Run'],
-    image: '/projects/planning-poker.png',
-    imageAlt: 'Página de Planning Poker con creación de sala y cartas de estimación',
-    url: 'https://planning-poker-449229867988.us-central1.run.app/',
-    action: 'Abrir Planning Poker',
-    tone: 'poker',
-  },
-  {
-    number: '05',
-    category: 'RESEARCH / AUTOMATIZACIÓN',
-    title: 'Kazumi Capital',
-    lead: 'Riesgo antes que impulso.',
-    text: 'Sistema de investigación para vigilar tokens de Solana, clasificar su salud estructural y ensayar decisiones en modo paper. La prioridad es medir liquidez, datos y salida antes de operar.',
-    tags: ['Solana', 'TypeScript', 'Data pipelines'],
-    tone: 'kazumi',
+    id: '05',
+    eyebrow: 'OBSERVABILIDAD / GKE',
+    title: 'Agnostiko',
+    description: 'Telemetría que une React, Flutter y Android con servicios GKE: CPU, uptime, spans, logs, trazas y alertas que llegan cuando deben.',
+    stack: 'OpenTelemetry · Grafana · KEDA',
+    status: 'InsightOne · 2025—2026',
+    accent: 'coral',
   },
 ];
 
-const experiments = [
-  {
-    title: 'Bombona Club',
-    label: 'Juego incremental · En línea',
-    text: 'Una sátira venezolana con decisiones, misiones, minijuegos y un barrio que cambia con cada partida.',
-    image: '/projects/bombona-club.png',
-    imageAlt: 'Bombona Club mostrando el barrio, recursos y un evento activo',
-    detailImage: '/projects/bombona-detail.png',
-    detailImageAlt: 'Bombona Club mostrando poderes, historias y misiones de la cuadra',
-    url: 'https://bombona.andrusdiaz.dev/',
-    futureHost: 'bombona.andrusdiaz.dev',
-    mark: 'B',
-  },
-  {
-    title: 'Crónicas del Slime',
-    label: 'RPG procedural · En línea',
-    text: 'Un RPG de acción con biomas, amenazas, progresión y un mundo distinto en cada renacer.',
-    image: '/projects/cronicas-slime.png',
-    imageAlt: 'Crónicas del Slime mostrando al personaje, la aldea, enemigos y el mapa vivo',
-    url: 'https://slime.andrusdiaz.dev/',
-    futureHost: 'slime.andrusdiaz.dev',
-    mark: 'S',
-  },
-  {
-    title: 'Kazumi Sentinel',
-    label: 'Trading research',
-    text: 'Alertas y exploración de mercado con una regla clara: primero observar, validar y simular.',
-    image: '/projects/kazumi-sentinel.png',
-    imageAlt: 'Panel de operaciones paper de Kazumi Sentinel',
-    mark: 'K',
-  },
-  {
-    title: 'AuraMesh',
-    label: 'Experimento visual · En línea',
-    text: 'Una superficie de luz que responde a gestos: cámara opcional, geometría generativa y todo el procesamiento de vídeo dentro del navegador.',
-    image: '/projects/aura-mesh.svg',
-    imageAlt: 'Vista de AuraMesh: una malla luminosa y controles del motor gestual',
-    url: 'https://aura-mesh.andrusdiaz.dev/',
-    futureHost: 'aura-mesh.andrusdiaz.dev',
-    action: 'Abrir AuraMesh',
-    mark: 'A',
-  },
-];
-
-const openSource = [
-  {
-    title: 'aura-mesh',
-    language: 'JavaScript',
-    text: 'Estudio de luz espacial y refracción interactiva con visión por computador en el navegador.',
-    url: 'https://github.com/AndrusGerman/aura-mesh',
-  },
-  {
-    title: 'facebook-flutter',
-    language: 'Dart',
-    text: 'Una exploración de interfaz inspirada en Facebook con Flutter.',
-    url: 'https://github.com/AndrusGerman/facebook-flutter',
-  },
-  {
-    title: 'gocam',
-    language: 'Go',
-    text: 'Herramienta para tomar fotografías en Windows desde Go.',
-    url: 'https://github.com/AndrusGerman/gocam',
-  },
-  {
-    title: 'Bad-Apple-Golang',
-    language: 'Go',
-    text: 'Experimentación audiovisual escrita en Go.',
-    url: 'https://github.com/AndrusGerman/Bad-Apple-Golang',
-  },
-  {
-    title: 'Pabilo para WooCommerce',
-    language: 'PHP',
-    text: 'Gateway para pagos móviles y transferencias bancarias de Venezuela.',
-    url: 'https://github.com/AndrusGerman/pabilo-payment-gateway-for-woocommerce',
-  },
-];
-
-const buildArchive = [
-  ['Relay', 'CRM CONVERSACIONAL + IA'],
-  ['Pabilo SDK', 'TYPESCRIPT SDK'],
-  ['Pabilo × WooCommerce', 'PAYMENT GATEWAY'],
-  ['Pabilo × Odoo', 'ERP INTEGRATION'],
-  ['Linko Store', 'COMERCIO + INVENTARIO'],
-  ['Planning Poker', 'REAL-TIME COLLABORATION'],
-  ['Kazumi Sentinel', 'SOLANA RESEARCH'],
-  ['Bombona Club', 'JUEGO INCREMENTAL'],
-  ['RPG Slime', 'GAME EXPERIMENT'],
-  ['AuraMesh', 'GESTURAL LIGHT STUDY', 'https://github.com/AndrusGerman/aura-mesh'],
-  ['Grafana / Diagnóstico', 'OBSERVABILIDAD'],
-  ['Cloud Trace / Diagnóstico', 'DISTRIBUTED TRACING'],
-  ['gocam', 'GO + WINDOWS'],
-  ['Bad Apple Golang', 'GO EXPERIMENT'],
-  ['GamePad Linux Server', 'REAL-TIME INPUT API'],
-  ['Simulador de mosca', 'FLY-BRAIN / SIMULACIÓN', 'https://github.com/AndrusGerman/fly-brain'],
-  ['facebook-flutter', 'FLUTTER UI'],
+const stackGroups = [
+  ['ORQUESTACIÓN', 'Kubernetes', 'k3s', 'GKE', 'Kustomize', 'Ingress'],
+  ['DATOS', 'PostgreSQL', 'CloudNativePG', 'Cloud SQL', 'MongoDB', 'Redis'],
+  ['SEÑALES', 'OpenTelemetry', 'Prometheus', 'Grafana', 'Cloud Monitoring', 'Cloud Logging'],
+  ['ENTREGA', 'GitHub Actions', 'Cloudflare Tunnels', 'WireGuard', 'KEDA', 'GCS / CDN'],
 ];
 ---
 
 <BaseLayout
-  title="Andrus Díaz — Productos, sistemas y experimentos"
-  description="El archivo de cosas construidas por Andrus Díaz: productos digitales, infraestructura, observabilidad, código abierto y juegos."
+  title="Andrus Díaz — Maker Founder SRE"
+  description="Andrus Díaz construye y opera productos, plataformas e infraestructura observable: Kaido, linko.store, Pabilo, Kroma e InsightOne."
 >
-  <a class="skip-link" href="#contenido">Ir al contenido</a>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
 
-  <header class="site-header" data-header>
-    <a class="wordmark" href="#inicio" aria-label="Andrus Díaz, inicio">
-      <span class="wordmark-mark" aria-hidden="true">AD</span>
-      <span>ANDRUS<br />DÍAZ</span>
+  <header class="topbar" data-header>
+    <a class="brand" href="#inicio" aria-label="Andrus Díaz, inicio">
+      <span class="brand-mark" aria-hidden="true">AD</span>
+      <span class="brand-copy"><b>ANDRUS</b><b>DÍAZ</b></span>
     </a>
-
+    <p class="topbar-state"><span class="status-dot"></span> construyendo sistemas reales</p>
     <nav class="desktop-nav" aria-label="Navegación principal">
-      <a href="#proyectos">Proyectos</a>
-      <a href="#archivo">Archivo</a>
-      <a href="#laboratorio">Laboratorio</a>
+      <a href="#trayectoria">Trayectoria</a>
+      <a href="#proyectos">Sistemas</a>
+      <a href="#contacto">Contacto</a>
     </nav>
-
-    <a class="header-link" href="#proyectos">Abrir archivo <span aria-hidden="true">↘</span></a>
+    <a class="topbar-cta" href="mailto:contacto@andrusdiaz.dev">Hablemos <span aria-hidden="true">↗</span></a>
     <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-nav" data-menu-toggle>
       <span></span><span></span>
     </button>
     <nav id="mobile-nav" class="mobile-nav" aria-label="Navegación móvil" hidden data-mobile-nav>
-      <a href="#proyectos">Proyectos</a>
-      <a href="#archivo">Archivo</a>
-      <a href="#laboratorio">Laboratorio</a>
-      <a href="https://github.com/AndrusGerman/" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+      <a href="#trayectoria">Trayectoria</a>
+      <a href="#proyectos">Sistemas</a>
+      <a href="#contacto">Contacto</a>
+      <a href="mailto:contacto@andrusdiaz.dev">contacto@andrusdiaz.dev</a>
     </nav>
   </header>
 
   <main id="contenido">
     <section id="inicio" class="hero section-shell">
-      <div class="hero-meta" data-reveal>
-        <span>ANDRUSCODEX / BUILD LOG</span>
-        <span>VENEZUELA · INTERNET · CURIOSIDAD</span>
-      </div>
-
-      <div class="hero-layout">
-        <div class="hero-copy" data-reveal>
-          <p class="eyebrow">FOUNDER · INGENIERO · MAKER · CURIOSO COMPULSIVO</p>
-          <h1>Lo imagino.<br /><em>Lo hago realidad.</em></h1>
-          <p class="intro">Soy Andrus Díaz. Una idea puede terminar convertida en una empresa, un producto financiero, infraestructura, automatización, una herramienta o un juego. La forma cambia; el impulso es el mismo: entenderla, construirla y hacer que exista.</p>
-          <div class="hero-actions">
-            <a class="button button-primary" href="#proyectos">Recorrer el archivo <span aria-hidden="true">↓</span></a>
-            <a class="text-action" href="https://github.com/AndrusGerman/" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
-          </div>
+      <div class="hero-gridline" aria-hidden="true"></div>
+      <div class="hero-copy" data-reveal>
+        <div class="eyebrow"><span>01</span> MAKER FOUNDER SRE <i>·</i> VENEZUELA / INTERNET</div>
+        <h1>Construyo sistemas<br /><em>que resisten.</em></h1>
+        <p class="hero-intro">Soy Andrus Díaz. Paso de una idea a un producto, de un producto a una plataforma y de una plataforma a señales que se pueden leer cuando algo cambia.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" data-magnetic href="#proyectos">Explorar sistemas <span aria-hidden="true">↓</span></a>
+          <a class="quiet-link" href="mailto:contacto@andrusdiaz.dev">contacto@andrusdiaz.dev <span aria-hidden="true">↗</span></a>
         </div>
-
-        <aside class="archive-card" aria-label="Archivo personal de proyectos de Andrus Díaz" data-reveal>
-          <div class="archive-topline"><span>AD / ARCHIVE</span><span>EST. 2015</span></div>
-          <div class="archive-monogram" aria-hidden="true"><span>A</span><i>/</i><span>D</span></div>
-          <p>PRODUCT / INFRA / FINTECH / GAMES / WHATEVER WORKS</p>
-          <div class="archive-catalog">
-            <span>GO</span><span>K8S</span><span>TS</span><span>FLUTTER</span><span>LINUX</span><span>POSTGRES</span>
-          </div>
-          <div class="archive-foot"><span>@ANDRUSCODEX</span><span>KEEP BUILDING ↗</span></div>
-        </aside>
       </div>
 
-      <div class="hero-foot" data-reveal>
-        <span>FOUNDER @ KAIDO GROUP</span>
-        <span>67 REPOSITORIOS PÚBLICOS</span>
-        <a href="#proyectos">MIRA LO QUE HE CONSTRUIDO <b aria-hidden="true">↘</b></a>
+      <div class="hero-stage" data-reveal aria-label="Panel visual de telemetría de Andrus Díaz">
+        <canvas id="hero-3d" aria-hidden="true"></canvas>
+        <div class="scene-fallback" aria-hidden="true">
+          <div class="fallback-orbit orbit-a"></div><div class="fallback-orbit orbit-b"></div>
+          <div class="fallback-core"><span>AD</span><small>LIVE SYSTEM</small></div>
+          <i class="fallback-node node-a"></i><i class="fallback-node node-b"></i><i class="fallback-node node-c"></i>
+        </div>
+        <div class="stage-topline"><span>FIELD NOTE 026</span><span>LIVE / 3D SIGNAL</span></div>
+        <div class="stage-readout readout-a"><small>CLUSTER</small><strong>KAIDO / K3S</strong><span class="pulse-line"></span></div>
+        <div class="stage-readout readout-b"><small>TRACE HEALTH</small><strong>99.98%</strong><span>OTLP · gRPC</span></div>
+        <div class="stage-axis axis-x">X / 03</div><div class="stage-axis axis-y">Y / 26</div>
+        <div class="stage-footer"><span><i class="status-dot"></i> señales nominales</span><span>lat 00:04:28</span></div>
+      </div>
+
+      <div class="hero-index" data-reveal>
+        <span>andrusdiaz.dev / control room</span>
+        <span>productos · infraestructura · observabilidad</span>
+        <a href="#trayectoria">ver recorrido <b aria-hidden="true">↘</b></a>
       </div>
     </section>
 
-    <div class="signal-strip" aria-label="Tecnologías y disciplinas">
-      <div>
-        <span>GO <i>✳</i> KUBERNETES <i>✳</i> TYPESCRIPT <i>✳</i> POSTGRESQL <i>✳</i> OBSERVABILIDAD <i>✳</i> PRODUCTO DIGITAL <i>✳</i></span>
-        <span aria-hidden="true">GO <i>✳</i> KUBERNETES <i>✳</i> TYPESCRIPT <i>✳</i> POSTGRESQL <i>✳</i> OBSERVABILIDAD <i>✳</i> PRODUCTO DIGITAL <i>✳</i></span>
-        <span aria-hidden="true">GO <i>✳</i> KUBERNETES <i>✳</i> TYPESCRIPT <i>✳</i> POSTGRESQL <i>✳</i> OBSERVABILIDAD <i>✳</i> PRODUCTO DIGITAL <i>✳</i></span>
+    <div class="signal-band" aria-label="Tecnologías y áreas de trabajo">
+      <div class="signal-track">
+        <span>GO <i>✳</i> KUBERNETES <i>✳</i> OBSERVABILIDAD <i>✳</i> POSTGRESQL <i>✳</i> PRODUCTO DIGITAL <i>✳</i> OPEN TELEMETRY <i>✳</i></span>
+        <span aria-hidden="true">GO <i>✳</i> KUBERNETES <i>✳</i> OBSERVABILIDAD <i>✳</i> POSTGRESQL <i>✳</i> PRODUCTO DIGITAL <i>✳</i> OPEN TELEMETRY <i>✳</i></span>
       </div>
     </div>
 
-    <section id="perfil" class="profile section-shell section-space">
-      <div class="section-kicker" data-reveal><span>01</span> PERFIL</div>
-      <div class="profile-grid">
-        <h2 data-reveal>No me interesa<br />solo que funcione.<br /><em>Me importa poder<br />entenderlo.</em></h2>
-        <div class="profile-copy" data-reveal>
-          <p>Trabajo donde se encuentran el código, la infraestructura y las decisiones de producto. Puedo pasar de un servicio en Go a un clúster, de ahí a un dashboard y terminar afinando la interacción que ve el usuario.</p>
-          <p>También soy la clase de persona a la que le llama la atención cualquier cosa con cables, luces o una placa. Por eso mi archivo mezcla sistemas serios con juegos, cámaras, controles remotos y experimentos extraños.</p>
-          <a class="text-action" href="https://www.linkedin.com/in/andruscodex/" target="_blank" rel="noopener noreferrer">Ver perfil de LinkedIn <span aria-hidden="true">↗</span></a>
+    <section id="sistemas" class="manifesto section-shell section-space">
+      <div class="section-label" data-reveal><span>02</span> FORMA DE OPERAR</div>
+      <div class="manifesto-grid">
+        <h2 data-reveal>El sistema<br />también cuenta<br /><em>su historia.</em></h2>
+        <div class="manifesto-copy" data-reveal>
+          <p>Construir no termina cuando el deploy pasa. Me interesa que las decisiones queden visibles: qué se movió, qué está vivo, qué puede fallar y quién puede arreglarlo.</p>
+          <p>Por eso mi trabajo cruza backend, Kubernetes, producto y observabilidad. Una buena interfaz muestra una intención; una buena plataforma la sostiene.</p>
+          <a class="quiet-link dark" href="#proyectos">Ver el mapa de sistemas <span aria-hidden="true">↘</span></a>
         </div>
       </div>
       <div class="principles" data-reveal>
-        <article><span>01 /</span><h3>Entender el sistema.</h3><p>Antes de agregar capas, sigo el flujo, los datos y las restricciones reales.</p></article>
-        <article><span>02 /</span><h3>Hacerlo operable.</h3><p>Un producto termina de construirse cuando alguien puede observarlo, mantenerlo y confiar en él.</p></article>
-        <article><span>03 /</span><h3>Aprender haciendo.</h3><p>Los experimentos, los juegos y el código público alimentan el siguiente sistema.</p></article>
+        <article><span>01 / SIGNAL</span><h3>Hacer visible lo importante.</h3><p>Señales útiles antes que ruido: métricas, logs, spans y contexto.</p></article>
+        <article><span>02 / SHIP</span><h3>Entregar con ritmo.</h3><p>Automatización y despliegues repetibles para que el equipo avance.</p></article>
+        <article><span>03 / CARE</span><h3>Diseñar para el siguiente incidente.</h3><p>Health checks, límites y documentación para volver a confiar.</p></article>
       </div>
     </section>
 
-    <section id="proyectos" class="work-section">
-      <div class="section-shell work-heading" data-reveal>
-        <div class="section-kicker section-kicker-light"><span>02</span> LOS GRANDES</div>
-        <div class="heading-row">
-          <h2>No son conceptos.<br /><em>Los construí.</em></h2>
-          <p>Productos propios, sistemas para operación real y experimentos que terminaron creciendo mucho más de lo previsto.</p>
+    <section id="trayectoria" class="timeline-section">
+      <div class="section-shell">
+        <div class="section-label section-label-light" data-reveal><span>03</span> TRAYECTORIA / BUILD LOG</div>
+        <div class="timeline-heading" data-reveal>
+          <h2>De la mesa<br />al <em>cluster.</em></h2>
+          <p>Un recorrido entre producto, operación y sistemas que tienen que seguir respondiendo cuando la pantalla se queda en silencio.</p>
+        </div>
+        <div class="timeline" data-reveal>
+          {experience.map((item, index) => (
+            <article class={`timeline-item accent-${item.accent}`}>
+              <div class="timeline-marker"><span>{String(index + 1).padStart(2, '0')}</span><i></i></div>
+              <div class="timeline-meta"><span>{item.period}</span><span>{item.location}</span></div>
+              <div class="timeline-main">
+                <div class="timeline-title"><h3>{item.company}</h3><span>{item.role}</span></div>
+                <p class="timeline-summary">{item.summary}</p>
+                <ul>{item.details.map((detail) => <li>{detail}</li>)}</ul>
+              </div>
+              <span class="timeline-signal" aria-hidden="true">0{index + 1} / OK</span>
+            </article>
+          ))}
         </div>
       </div>
+    </section>
 
-      <div class="work-list section-shell">
-        {selectedWork.map((project) => (
-          <article class={`project-card ${project.tone} ${project.image ? 'has-image' : ''}`} data-reveal>
-            <div class="project-index"><span>{project.number}</span><span>{project.category}</span></div>
-            {project.image && (
-              <div class="project-media">
-                <img src={project.image} alt={project.imageAlt} loading="lazy" width="1440" height="900" />
-              </div>
-            )}
-            <div class="project-content">
-              <div>
-                <h3>{project.title}</h3>
-                <p class="project-lead">{project.lead}</p>
-              </div>
-              <p class="project-text">{project.text}</p>
-            </div>
-            <div class="project-bottom">
-              <ul aria-label={`Tecnologías de ${project.title}`}>{project.tags.map((tag) => <li>{tag}</li>)}</ul>
-              {project.url && <a class="project-link" href={project.url} target="_blank" rel="noopener noreferrer">{project.action} <span aria-hidden="true">↗</span></a>}
-            </div>
+    <section id="proyectos" class="systems-section section-shell section-space">
+      <div class="section-label" data-reveal><span>04</span> SISTEMAS EN EL CAMPO</div>
+      <div class="systems-heading" data-reveal>
+        <h2>Productos con<br /><em>señal.</em></h2>
+        <p>Una selección del ecosistema y de las plataformas donde la idea se convierte en una operación completa.</p>
+      </div>
+      <div class="systems-grid">
+        {projects.map((project) => (
+          <article class={`system-card card-${project.accent}`} data-reveal data-tilt>
+            <div class="system-card-top"><span>{project.id}</span><span>{project.eyebrow}</span></div>
+            <div class="system-graphic" aria-hidden="true"><span class="graphic-ring ring-1"></span><span class="graphic-ring ring-2"></span><span class="graphic-node"></span><span class="graphic-line"></span></div>
+            <div class="system-card-body"><h3>{project.title}</h3><p>{project.description}</p></div>
+            <div class="system-card-foot"><span>{project.stack}</span><span>{project.status}</span></div>
           </article>
         ))}
       </div>
     </section>
 
-    <section id="archivo" class="build-archive section-shell section-space">
-      <div class="archive-heading" data-reveal>
-        <div class="section-kicker"><span>03</span> ÍNDICE DE CONSTRUCCIONES</div>
-        <h2>Y esto es solo<br /><em>lo que cabe aquí.</em></h2>
-        <p>Productos, integraciones, infraestructura, herramientas y juegos. Cada nombre debajo terminó convertido en software.</p>
-      </div>
-      <ol class="build-wall" data-reveal>
-        {buildArchive.map(([title, type, url], index) => (
-          <li>
-            <span class="build-number">{String(index + 1).padStart(2, '0')}</span>
-            <strong>{title}</strong>
-            <span class="build-type">{type}</span>
-            {url && <a class="build-item-link" href={url} target="_blank" rel="noopener noreferrer">Abrir repositorio <span aria-hidden="true">↗</span></a>}
-          </li>
-        ))}
-      </ol>
-    </section>
-
-    <section id="laboratorio" class="lab-section section-shell section-space">
-      <div class="lab-heading" data-reveal>
-        <div class="section-kicker"><span>04</span> LABORATORIO</div>
-        <p class="eyebrow">TAMBIÉN HAGO COSAS POR EL PLACER DE ENTENDERLAS.</p>
-        <h2>El juego es una forma<br />seria de <em>experimentar.</em></h2>
-      </div>
-      <div class="experiment-grid">
-        {experiments.map((experiment, index) => (
-          <article class={`experiment experiment-${index + 1}`} data-reveal>
-            <div class="experiment-mark" aria-hidden="true">{experiment.mark}</div>
-            <span>{experiment.label}</span>
-            {experiment.image && (
-              experiment.url ? (
-                <a class="experiment-visual" href={experiment.url} target="_blank" rel="noopener noreferrer" aria-label={`Abrir ${experiment.title}`}>
-                  <img src={experiment.image} alt={experiment.imageAlt} loading="lazy" width="1440" height="900" />
-                </a>
-              ) : (
-                <div class="experiment-visual">
-                  <img src={experiment.image} alt={experiment.imageAlt} loading="lazy" width="1440" height="900" />
-                </div>
-              )
-            )}
-            {experiment.detailImage && (
-              experiment.url ? (
-                <a class="experiment-detail" href={experiment.url} target="_blank" rel="noopener noreferrer" aria-label={`Abrir ${experiment.title}`}>
-                  <img src={experiment.detailImage} alt={experiment.detailImageAlt} loading="lazy" width="1440" height="900" />
-                </a>
-              ) : (
-                <div class="experiment-detail">
-                  <img src={experiment.detailImage} alt={experiment.detailImageAlt} loading="lazy" width="1440" height="900" />
-                </div>
-              )
-            )}
-            <h3>{experiment.title}</h3>
-            <p>{experiment.text}</p>
-            {experiment.url && (
-              <div class="experiment-actions">
-                <a href={experiment.url} target="_blank" rel="noopener noreferrer">{experiment.action ?? 'Jugar ahora'} <span aria-hidden="true">↗</span></a>
-                {experiment.futureHost && <span><small>EN LÍNEA</small>{experiment.futureHost}</span>}
-              </div>
-            )}
+    <section class="stack-section section-shell section-space">
+      <div class="section-label" data-reveal><span>05</span> INSTRUMENTOS</div>
+      <div class="stack-grid">
+        {stackGroups.map((group) => (
+          <article data-reveal>
+            <h3>{group[0]}</h3>
+            <ul>{group.slice(1).map((item) => <li>{item}</li>)}</ul>
           </article>
         ))}
       </div>
+      <div class="stack-note" data-reveal><span class="status-dot"></span><p>La herramienta cambia. La responsabilidad de entender el sistema permanece.</p></div>
     </section>
 
-    <section class="open-source-section section-shell section-space">
-      <div class="open-source-heading" data-reveal>
-        <div class="section-kicker"><span>05</span> CÓDIGO PÚBLICO</div>
-        <p>Parte de mi trabajo está abierto para explorar, aprender y reutilizar.</p>
-        <a class="button button-outline" href="https://github.com/AndrusGerman/" target="_blank" rel="noopener noreferrer">Todos los repositorios <span aria-hidden="true">↗</span></a>
-      </div>
-      <div class="repo-list" data-reveal>
-        {openSource.map((repo) => (
-          <a href={repo.url} target="_blank" rel="noopener noreferrer" class="repo-row">
-            <span class="repo-language"><i></i>{repo.language}</span>
-            <span class="repo-name">{repo.title}</span>
-            <span class="repo-description">{repo.text}</span>
-            <span class="repo-arrow" aria-hidden="true">↗</span>
-          </a>
-        ))}
-      </div>
-    </section>
-
-    <section id="contacto" class="contact-section closing-section">
-      <div class="section-shell contact-shell" data-reveal>
-        <div class="contact-meta"><span>06 / CONTINUARÁ</span><span>@ANDRUSCODEX</span></div>
-        <h2>No terminé.<br />Solo se acabó<br /><em>esta página.</em></h2>
-        <div class="contact-bottom">
-          <p>El archivo sigue creciendo. En GitHub están los repositorios públicos; en LinkedIn, el recorrido. Si quieres conversar o construir algo, escríbeme a <a href="mailto:contacto@andrusdiaz.dev">contacto@andrusdiaz.dev</a>.</p>
-          <div class="contact-actions">
-            <a class="button button-light" href="mailto:contacto@andrusdiaz.dev">Ponte en contacto <span aria-hidden="true">↗</span></a>
-            <a class="button button-light" href="https://github.com/AndrusGerman/" target="_blank" rel="noopener noreferrer">Seguir excavando en GitHub <span aria-hidden="true">↗</span></a>
-            <a class="text-action text-action-light" href="https://www.linkedin.com/in/andruscodex/" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
-          </div>
+    <section id="contacto" class="contact-section">
+      <div class="contact-shell section-shell" data-reveal>
+        <div class="section-label section-label-light"><span>06</span> ABRIR CANAL</div>
+        <div class="contact-grid">
+          <h2>¿Qué vamos<br />a <em>construir?</em></h2>
+          <div class="contact-copy"><p>Si estás resolviendo un problema difícil de producto, plataforma u operación, escríbeme. Puedo ayudarte a encontrar la forma que el sistema necesita.</p><a class="button button-primary" data-magnetic href="mailto:contacto@andrusdiaz.dev">contacto@andrusdiaz.dev <span aria-hidden="true">↗</span></a></div>
         </div>
+        <div class="contact-foot"><span>ANDRUS DÍAZ / MAKER FOUNDER SRE</span><span>VENEZUELA · REMOTO · INTERNET</span><a href="https://github.com/AndrusGerman/" target="_blank" rel="noopener noreferrer">GitHub ↗</a></div>
       </div>
     </section>
   </main>
 
   <footer class="site-footer section-shell">
-    <a class="wordmark" href="#inicio" aria-label="Volver al inicio"><span class="wordmark-mark" aria-hidden="true">AD</span><span>ANDRUS<br />DÍAZ</span></a>
-    <p>Ideas, productos, infraestructura y experimentos hechos realidad.</p>
+    <a class="brand" href="#inicio" aria-label="Volver al inicio"><span class="brand-mark" aria-hidden="true">AD</span><span class="brand-copy"><b>ANDRUS</b><b>DÍAZ</b></span></a>
+    <p>Productos, plataformas y señales que ayudan a operar.</p>
     <span>© {new Date().getFullYear()}</span>
   </footer>
 
-  <script>import '../scripts/portfolio';</script>
+  <script>import '../scripts/site';</script>
 </BaseLayout>
