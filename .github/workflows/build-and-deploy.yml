@@ -1,0 +1,104 @@
+name: Build and publish Andrus Díaz home
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'public/**'
+      - 'k8s/kaido/**'
+      - 'Dockerfile'
+      - 'nginx.conf'
+      - 'astro.config.mjs'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/build-and-deploy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+
+concurrency:
+  group: andrusdiaz-home-main
+  cancel-in-progress: false
+
+env:
+  IMAGE: southamerica-east1-docker.pkg.dev/gen-lang-client-0331944990/kaido-group/andrusdiaz
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm run build
+
+  publish:
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+
+      # Prerequisite: github-kaido currently allows only AndrusGerman/kaido-group.
+      # IAM must authorize this repository before this job can authenticate.
+      - uses: google-github-actions/auth@v3
+        id: google
+        with:
+          workload_identity_provider: projects/174766353053/locations/global/workloadIdentityPools/github-actions/providers/github-kaido
+          service_account: kaido-admin-builder@gen-lang-client-0331944990.iam.gserviceaccount.com
+          token_format: access_token
+
+      - name: Registry authentication
+        env:
+          ACCESS_TOKEN: ${{ steps.google.outputs.access_token }}
+        run: printf '%s' "$ACCESS_TOKEN" | docker login -u oauth2accesstoken --password-stdin southamerica-east1-docker.pkg.dev
+
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/build-push-action@v6
+        id: image
+        with:
+          context: .
+          push: true
+          platforms: linux/amd64
+          tags: ${{ env.IMAGE }}:${{ github.sha }}
+
+      - name: Update desired image for Flux
+        env:
+          IMAGE_DIGEST: ${{ steps.image.outputs.digest }}
+        run: |
+          python3 - <<'PY'
+          import os, re
+          from pathlib import Path
+
+          digest = os.environ['IMAGE_DIGEST']
+          assert re.fullmatch(r'sha256:[0-9a-f]{64}', digest)
+          path = Path('k8s/kaido/kustomization.yaml')
+          body, count = re.subn(
+              r'(  - name: andrusdiaz-home\n    newName: [^\n]+\n    digest: )sha256:[0-9a-f]{64}',
+              r'\g<1>' + digest,
+              path.read_text(),
+          )
+          assert count == 1
+          path.write_text(body)
+          PY
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add k8s/kaido/kustomization.yaml
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "deploy: update Andrus Díaz home image [skip ci]"
+          git pull --rebase origin main
+          git push origin HEAD:main
+
+      - name: Remove registry credentials
+        if: always()
+        run: docker logout southamerica-east1-docker.pkg.dev

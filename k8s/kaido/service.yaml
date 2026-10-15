@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: andrusdiaz-home
+  labels:
+    app.kubernetes.io/name: andrusdiaz-home
+    app.kubernetes.io/part-of: andrusdiaz
+spec:
+  type: ClusterIP
+  selector:
+    app: andrusdiaz-home
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
