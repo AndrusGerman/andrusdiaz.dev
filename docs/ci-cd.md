@@ -24,19 +24,23 @@ El workflow usa estos identificadores, que no son secretos:
 - Repositorio de Artifact Registry: `projects/gen-lang-client-0331944990/locations/southamerica-east1/repositories/kaido-group`
 
 El proveedor `github-kaido` existente sólo permite actualmente
-`AndrusGerman/kaido-group`. Antes de activar este workflow, la condición del
-proveedor debe permitir únicamente el repositorio y la rama que lo ejecutan:
+`AndrusGerman/kaido-group`, que conserva su workflow de administración. Antes
+de activar este workflow, hay que extender la condición del proveedor sin
+quitar ese acceso existente. La condición resultante debe ser:
 
 ```text
-assertion.repository_owner == 'AndrusGerman' &&
-assertion.repository == 'AndrusGerman/andrusdiaz.dev' &&
-assertion.ref == 'refs/heads/main'
+assertion.repository_owner == 'AndrusGerman' && (
+  assertion.repository == 'AndrusGerman/kaido-group' ||
+  (assertion.repository == 'AndrusGerman/andrusdiaz.dev' &&
+   assertion.ref == 'refs/heads/main')
+)
 ```
 
 La cuenta necesita también un binding `roles/iam.workloadIdentityUser` para el
 principal del repositorio (`attribute.repository=AndrusGerman/andrusdiaz.dev`)
 y `roles/artifactregistry.writer` únicamente sobre el repositorio regional
-`kaido-group`. No se deben crear claves JSON, guardar secretos de Google en
-GitHub ni conceder permisos de Kubernetes al runner. Esta configuración IAM se
-debe aplicar en Google Cloud o en el repositorio de infraestructura; este repo
-solo declara el proveedor y la cuenta que usará `google-github-actions/auth@v3`.
+`kaido-group`. Conserva el binding equivalente de `AndrusGerman/kaido-group`.
+No se deben crear claves JSON, guardar secretos de Google en GitHub ni conceder
+permisos de Kubernetes al runner. Esta configuración IAM se debe aplicar en
+Google Cloud o en el repositorio de infraestructura; este repo solo declara el
+proveedor y la cuenta que usará `google-github-actions/auth@v3`.

@@ -53,8 +53,9 @@ jobs:
           ref: ${{ github.sha }}
           fetch-depth: 0
 
-      # Prerequisite: github-kaido must allow only
-      # AndrusGerman/andrusdiaz.dev on refs/heads/main. See docs/ci-cd.md.
+      # Prerequisite: github-kaido must also allow this repository on
+      # refs/heads/main while retaining Kaido Admin's existing binding.
+      # See docs/ci-cd.md.
       - uses: google-github-actions/auth@v3
         id: google
         with:
