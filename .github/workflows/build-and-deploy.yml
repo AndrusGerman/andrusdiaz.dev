@@ -44,13 +44,17 @@ jobs:
   publish:
     needs: validate
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
+          fetch-depth: 0
 
-      # Prerequisite: github-kaido currently allows only AndrusGerman/kaido-group.
-      # IAM must authorize this repository before this job can authenticate.
+      # Prerequisite: github-kaido must allow only
+      # AndrusGerman/andrusdiaz.dev on refs/heads/main. See docs/ci-cd.md.
       - uses: google-github-actions/auth@v3
         id: google
         with:
@@ -96,7 +100,11 @@ jobs:
           git add k8s/kaido/kustomization.yaml
           if git diff --cached --quiet; then exit 0; fi
           git commit -m "deploy: update Andrus Díaz home image [skip ci]"
-          git pull --rebase origin main
+          # checkout is intentionally pinned to the triggering SHA. Rebase
+          # the digest commit explicitly instead of using `git pull`, which
+          # cannot select a branch while HEAD is detached.
+          git fetch origin main
+          git rebase origin/main
           git push origin HEAD:main
 
       - name: Remove registry credentials
