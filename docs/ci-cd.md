@@ -44,3 +44,13 @@ No se deben crear claves JSON, guardar secretos de Google en GitHub ni conceder
 permisos de Kubernetes al runner. Esta configuración IAM se debe aplicar en
 Google Cloud o en el repositorio de infraestructura; este repo solo declara el
 proveedor y la cuenta que usará `google-github-actions/auth@v3`.
+
+## Registro de publicación y de despliegue
+
+La identidad WIF existente publica en `kaido`, pero la credencial compartida
+`artifact-registry` de `andrusdiaz` sólo puede leer `kaido-group` y `aura-mesh`.
+Mientras se mantengan esos permisos, la imagen publicada debe copiarse íntegra
+al repositorio `kaido-group/andrusdiaz` y su digest confirmado en Kustomize.
+El workflow conserva el digest desplegado si el registro de publicación difiere
+del destino de Flux. Así una nueva compilación no sustituye una imagen operativa
+por otra que el clúster no puede descargar. Este despliegue conserva IAM y Secrets.

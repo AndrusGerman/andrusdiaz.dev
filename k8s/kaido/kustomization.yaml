@@ -10,8 +10,8 @@ resources:
   - games.yaml
 images:
   - name: andrusdiaz-home
-    newName: southamerica-east1-docker.pkg.dev/gen-lang-client-0331944990/kaido/andrusdiaz
-    digest: sha256:91ac73ae3859b56ec67e907daf86fe8a02e575689b4d2840b982d5341ca8bd95
+    newName: southamerica-east1-docker.pkg.dev/gen-lang-client-0331944990/kaido-group/andrusdiaz
+    digest: sha256:2ee59e86f99df9254c0efb17e521e17e387b81c41f7289fb2eae2845bdde61b5
   - name: bombona
     newName: southamerica-east1-docker.pkg.dev/gen-lang-client-0331944990/kaido-group/bombona
     newTag: kaido-20260919-bombona-1
