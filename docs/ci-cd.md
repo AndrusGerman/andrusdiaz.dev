@@ -1,56 +1,35 @@
 # CI/CD de `andrusdiaz.dev`
 
 El workflow [`build-and-deploy.yml`](../.github/workflows/build-and-deploy.yml)
-se ejecuta en `main` del repositorio `AndrusGerman/andrusdiaz.dev`. Primero
-ejecuta `npm ci`, `npm run check` y `npm run build`; después construye y publica
-la imagen `linux/amd64` en:
+se ejecuta al cambiar código, assets o configuración de despliegue en `main`.
+También admite `workflow_dispatch`. Valida con `npm ci`, `npm run check` y
+`npm run build`, y publica la imagen `linux/amd64` directamente en:
 
 ```text
-southamerica-east1-docker.pkg.dev/gen-lang-client-0331944990/kaido/andrusdiaz:<github.sha>
+southamerica-east1-docker.pkg.dev/gen-lang-client-0331944990/kaido-group/andrusdiaz:<github.sha>
 ```
 
-El digest que devuelve Artifact Registry se escribe en
-[`k8s/kaido/kustomization.yaml`](../k8s/kaido/kustomization.yaml). Flux debe
-seguir esa ruta y la rama `main` mediante los recursos del parche
-[`kaido-group-flux.patch.yaml`](./kaido-group-flux.patch.yaml). El commit
-automático lleva `[skip ci]` para evitar un segundo build.
+El digest publicado se confirma automáticamente en
+[`k8s/kaido/kustomization.yaml`](../k8s/kaido/kustomization.yaml). El commit
+lleva `[skip ci]` para evitar otro build. CI comprueba que su destino coincide
+con el de Kustomize antes de actualizarlo.
 
-## Requisito de WIF/IAM
+`GitRepository/andrusdiaz-home` y `Kustomization/andrusdiaz-home`, definidos en
+[`kaido-group-flux.patch.yaml`](./kaido-group-flux.patch.yaml) y publicados en
+el repositorio central `AndrusGerman/kaido-group`, observan `main` y aplican
+`./k8s/kaido` al namespace `andrusdiaz`. Flux espera el rollout con `wait: true`
+y conserva `prune: false`. La credencial `artifact-registry` ya existente en
+ese namespace permite descargar desde `kaido-group`; no hace falta promoción
+manual entre registros.
 
-El workflow usa estos identificadores, que no son secretos:
+## WIF y permiso de publicación
 
-- Proveedor: `projects/174766353053/locations/global/workloadIdentityPools/github-actions/providers/github-kaido`
-- Cuenta de servicio: `kaido-admin-builder@gen-lang-client-0331944990.iam.gserviceaccount.com`
-- Repositorio de Artifact Registry: `projects/gen-lang-client-0331944990/locations/southamerica-east1/repositories/kaido`
+- Proveedor existente: `projects/174766353053/locations/global/workloadIdentityPools/github-actions/providers/github-kaido`.
+- Identidad CI existente: `kaido-admin-builder@gen-lang-client-0331944990.iam.gserviceaccount.com`.
+- Recurso de Artifact Registry: `projects/gen-lang-client-0331944990/locations/southamerica-east1/repositories/kaido-group`.
+- Permiso de publicación: `roles/artifactregistry.writer` sobre ese repositorio, autorizado el 2026-10-16. Se conservan los permisos anteriores.
 
-El proveedor `github-kaido` existente sólo permite actualmente
-`AndrusGerman/kaido-group`, que conserva su workflow de administración. Antes
-de activar este workflow, hay que extender la condición del proveedor sin
-quitar ese acceso existente. La condición resultante debe ser:
-
-```text
-assertion.repository_owner == 'AndrusGerman' && (
-  assertion.repository == 'AndrusGerman/kaido-group' ||
-  (assertion.repository == 'AndrusGerman/andrusdiaz.dev' &&
-   assertion.ref == 'refs/heads/main')
-)
-```
-
-La cuenta necesita también un binding `roles/iam.workloadIdentityUser` para el
-principal del repositorio (`attribute.repository=AndrusGerman/andrusdiaz.dev`)
-y `roles/artifactregistry.writer` únicamente sobre el repositorio regional
-`kaido`. Conserva el binding equivalente de `AndrusGerman/kaido-group`.
-No se deben crear claves JSON, guardar secretos de Google en GitHub ni conceder
-permisos de Kubernetes al runner. Esta configuración IAM se debe aplicar en
-Google Cloud o en el repositorio de infraestructura; este repo solo declara el
-proveedor y la cuenta que usará `google-github-actions/auth@v3`.
-
-## Registro de publicación y de despliegue
-
-La identidad WIF existente publica en `kaido`, pero la credencial compartida
-`artifact-registry` de `andrusdiaz` sólo puede leer `kaido-group` y `aura-mesh`.
-Mientras se mantengan esos permisos, la imagen publicada debe copiarse íntegra
-al repositorio `kaido-group/andrusdiaz` y su digest confirmado en Kustomize.
-El workflow conserva el digest desplegado si el registro de publicación difiere
-del destino de Flux. Así una nueva compilación no sustituye una imagen operativa
-por otra que el clúster no puede descargar. Este despliegue conserva IAM y Secrets.
+WIF ya autoriza al repositorio `AndrusGerman/andrusdiaz.dev` a usar esa cuenta.
+GitHub sólo publica imágenes y confirma el digest en Git: no necesita kubeconfig,
+acceso al API privado, claves JSON ni nuevos secretos. Flux despliega desde
+el clúster con las credenciales de lectura existentes.

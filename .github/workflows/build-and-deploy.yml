@@ -24,7 +24,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  IMAGE: southamerica-east1-docker.pkg.dev/gen-lang-client-0331944990/kaido/andrusdiaz
+  IMAGE: southamerica-east1-docker.pkg.dev/gen-lang-client-0331944990/kaido-group/andrusdiaz
 
 jobs:
   validate:
@@ -53,9 +53,8 @@ jobs:
           ref: ${{ github.sha }}
           fetch-depth: 0
 
-      # Prerequisite: github-kaido must also allow this repository on
-      # refs/heads/main while retaining Kaido Admin's existing binding.
-      # See docs/ci-cd.md.
+      # Existing WIF identity publishes directly to the registry read by Flux.
+      # Repository-scoped IAM and the complete delivery flow: docs/ci-cd.md.
       - uses: google-github-actions/auth@v3
         id: google
         with:
@@ -89,9 +88,7 @@ jobs:
           assert re.fullmatch(r'sha256:[0-9a-f]{64}', digest)
           path = Path('k8s/kaido/kustomization.yaml')
           body = path.read_text()
-          if f'    newName: {os.environ["IMAGE"]}\n' not in body:
-              print('Image published; promote it to the deployment registry before updating Flux.')
-              raise SystemExit(0)
+          assert f'    newName: {os.environ["IMAGE"]}\n' in body, 'CI and Flux image destinations must match'
           body, count = re.subn(
               r'(  - name: andrusdiaz-home\n    newName: [^\n]+\n    digest: )sha256:[0-9a-f]{64}',
               r'\g<1>' + digest,
