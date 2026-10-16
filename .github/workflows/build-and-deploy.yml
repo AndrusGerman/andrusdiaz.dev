@@ -24,7 +24,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  IMAGE: southamerica-east1-docker.pkg.dev/gen-lang-client-0331944990/kaido-group/andrusdiaz
+  IMAGE: southamerica-east1-docker.pkg.dev/gen-lang-client-0331944990/kaido/andrusdiaz
 
 jobs:
   validate:

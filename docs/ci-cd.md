@@ -6,7 +6,7 @@ ejecuta `npm ci`, `npm run check` y `npm run build`; después construye y public
 la imagen `linux/amd64` en:
 
 ```text
-southamerica-east1-docker.pkg.dev/gen-lang-client-0331944990/kaido-group/andrusdiaz:<github.sha>
+southamerica-east1-docker.pkg.dev/gen-lang-client-0331944990/kaido/andrusdiaz:<github.sha>
 ```
 
 El digest que devuelve Artifact Registry se escribe en
@@ -21,7 +21,7 @@ El workflow usa estos identificadores, que no son secretos:
 
 - Proveedor: `projects/174766353053/locations/global/workloadIdentityPools/github-actions/providers/github-kaido`
 - Cuenta de servicio: `kaido-admin-builder@gen-lang-client-0331944990.iam.gserviceaccount.com`
-- Repositorio de Artifact Registry: `projects/gen-lang-client-0331944990/locations/southamerica-east1/repositories/kaido-group`
+- Repositorio de Artifact Registry: `projects/gen-lang-client-0331944990/locations/southamerica-east1/repositories/kaido`
 
 El proveedor `github-kaido` existente sólo permite actualmente
 `AndrusGerman/kaido-group`, que conserva su workflow de administración. Antes
@@ -39,7 +39,7 @@ assertion.repository_owner == 'AndrusGerman' && (
 La cuenta necesita también un binding `roles/iam.workloadIdentityUser` para el
 principal del repositorio (`attribute.repository=AndrusGerman/andrusdiaz.dev`)
 y `roles/artifactregistry.writer` únicamente sobre el repositorio regional
-`kaido-group`. Conserva el binding equivalente de `AndrusGerman/kaido-group`.
+`kaido`. Conserva el binding equivalente de `AndrusGerman/kaido-group`.
 No se deben crear claves JSON, guardar secretos de Google en GitHub ni conceder
 permisos de Kubernetes al runner. Esta configuración IAM se debe aplicar en
 Google Cloud o en el repositorio de infraestructura; este repo solo declara el
