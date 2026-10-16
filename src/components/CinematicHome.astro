@@ -2,6 +2,7 @@
 import WorkExhibitions from './WorkExhibitions.astro';
 import ExperimentArchive from './ExperimentArchive.astro';
 import '../styles/work-exhibits.css';
+import '../styles/responsive.css';
 interface Experience { period: string; company: string; location: string; role: string; summary: string; details: string[]; accent: string }
 interface Project { id: string; eyebrow: string; title: string; description: string; stack: string; status: string; accent: string }
 interface Props { experience: Experience[]; projects: Project[]; stackGroups: string[][] }

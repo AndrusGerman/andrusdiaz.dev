@@ -21,14 +21,80 @@ function init() {
   const sceneLabel = document.querySelector<HTMLElement>('[data-scene-label]');
   const labels = ['01 / EL ORIGEN', '02 / CONSTRUIR', '03 / DARLE MUNDO', '04 / OPERAR'];
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const desktop = window.matchMedia('(min-width: 1000px) and (min-height: 680px)');
+  const desktop = window.matchMedia('(min-width: 1100px)');
   let overrideReduced: boolean | null = null;
   let generation = 0;
   let world: World | undefined;
   let worldProgress = 0;
   let cleanMotion = () => {};
+  let layoutKey = '';
+  let resizeTimer: ReturnType<typeof setTimeout> | undefined;
+  let cachedView: ReturnType<typeof rememberView>;
+  let stableView: ReturnType<typeof rememberView>;
+  let resizeView: ReturnType<typeof rememberView>;
+  let resizing = false;
+  let viewWidth = innerWidth;
+  let viewHeight = innerHeight;
+  let viewFrame = 0;
+  const chapterProgress = (index: number) => index === 0 ? 0 : (index + .3) / 3.55;
 
-  const updateHeader = () => header?.classList.toggle('is-scrolled', window.scrollY > 32);
+  function measureLayout() {
+    const fits = (height: number) => desktop.matches && height <= innerHeight - 2;
+    const heroFits = acts.every((act) => {
+      const style = getComputedStyle(act);
+      const copy = act.querySelector<HTMLElement>('.act-copy');
+      return fits((copy?.offsetHeight ?? Infinity) + parseFloat(style.paddingTop) + parseFloat(style.paddingBottom));
+    });
+    const exhibits = pinnedStages.slice(1).map((element) => {
+      const style = getComputedStyle(element);
+      const height = (selector: string) => element.querySelector<HTMLElement>(selector)?.offsetHeight ?? 0;
+      // Measure the natural grid contents, never the forced viewport or transformed image.
+      return fits(parseFloat(style.paddingTop) + parseFloat(style.paddingBottom) + parseFloat(style.rowGap) * 2
+        + height('.exhibit-coordinate') + Math.max(height('.exhibit-copy'), height('.exhibit-media')) + height('.exhibit-footer'));
+    });
+    return { heroFits, exhibits, key: [overrideReduced ?? reduced.matches, desktop.matches, heroFits, ...exhibits].join(':') };
+  }
+
+  function rememberView() {
+    const sections = Array.from(document.querySelectorAll<HTMLElement>('[data-cinema],.work-intro,[data-work-exhibit],.systems-after,.lab-intro,[data-lab-scene],#trayectoria,.practice-section,#contacto,.site-footer'));
+    const line = (header?.offsetHeight ?? 96) + 32;
+    const element = sections.find((section) => {
+      const rect = section.getBoundingClientRect();
+      return rect.top <= line && rect.bottom > line;
+    });
+    if (!element) return undefined;
+    const rect = element.getBoundingClientRect();
+    let progress = Math.max(0, Math.min(1, -rect.top / Math.max(1, rect.height - innerHeight)));
+    if (element === cinema) {
+      const index = acts.findIndex((act) => { const bounds = act.getBoundingClientRect(); return bounds.top <= line && bounds.bottom > line; });
+      progress = cinema!.classList.contains('cinema-enhanced') ? worldProgress : chapterProgress(Math.max(0, index));
+    }
+    return { element, progress };
+  }
+
+  function restoreView(view: ReturnType<typeof rememberView>) {
+    if (!view) return;
+    const trigger = view.element === cinema ? ScrollTrigger.getById('cinema') : ScrollTrigger.getAll().find((item) => item.trigger === view.element && item.pin);
+    if (trigger?.pin) {
+      window.scrollTo({ top: trigger.start + view.progress * (trigger.end - trigger.start), behavior: 'instant' });
+    } else if (view.element === cinema) {
+      const act = acts[Math.min(3, Math.floor(view.progress * 3.55))];
+      window.scrollTo({ top: scrollY + act.getBoundingClientRect().top - (header?.offsetHeight ?? 96), behavior: 'instant' });
+    } else {
+      const rect = view.element.getBoundingClientRect();
+      window.scrollTo({ top: scrollY + rect.top + view.progress * Math.max(0, rect.height - innerHeight), behavior: 'instant' });
+    }
+    ScrollTrigger.update();
+  }
+
+  const updateHeader = () => {
+    header?.classList.toggle('is-scrolled', window.scrollY > 32);
+    cancelAnimationFrame(viewFrame);
+    viewFrame = requestAnimationFrame(() => {
+      // Keep the last view from the old layout before resize reflows the document.
+      if (!resizing && innerWidth === viewWidth && innerHeight === viewHeight) stableView = rememberView();
+    });
+  };
   window.addEventListener('scroll', updateHeader, { passive: true });
   updateHeader();
 
@@ -42,14 +108,18 @@ function init() {
     if (sceneLabel) sceneLabel.textContent = labels[chapter];
   }
 
-  function rebuildMotion() {
+  function rebuildMotion(preserveView = false, savedView?: ReturnType<typeof rememberView>) {
+    const view = savedView ?? (preserveView ? rememberView() : undefined);
     generation += 1;
     const activeGeneration = generation;
     cleanMotion();
+    pinnedStages.forEach((element) => element.classList.remove('is-pinned'));
     world?.dispose();
     world = undefined;
     cinema!.classList.remove('cinema-enhanced', 'world-ready');
     const isReduced = overrideReduced ?? reduced.matches;
+    const layout = measureLayout();
+    layoutKey = layout.key;
     document.documentElement.dataset.motion = isReduced ? 'reduced' : 'full';
     toggle?.setAttribute('aria-pressed', String(isReduced));
     toggle?.setAttribute('aria-label', isReduced ? 'Activar movimiento' : 'Reducir movimiento');
@@ -59,6 +129,8 @@ function init() {
       cleanMotion = () => {};
       showProgress(0);
       ScrollTrigger.refresh();
+      restoreView(view);
+      stableView = rememberView();
       return;
     }
 
@@ -66,7 +138,7 @@ function init() {
     try {
       context = gsap.context(() => {});
       context.add(() => {
-        if (desktop.matches) {
+        if (layout.heroFits) {
           cinema!.classList.add('cinema-enhanced');
           gsap.set(acts, { autoAlpha: 0 });
           gsap.set(acts[0], { autoAlpha: 1 });
@@ -85,22 +157,29 @@ function init() {
           }
           story.to({}, { duration: .4 }, 3.15);
 
+        } else {
+          ScrollTrigger.create({ trigger: cinema, start: 'top top', end: 'bottom bottom', onUpdate: (self) => showProgress(self.progress) });
+        }
+
+        if (desktop.matches) {
           document.querySelectorAll<HTMLElement>('[data-work-exhibit]').forEach((exhibit, index) => {
             const exhibitStage = exhibit.querySelector<HTMLElement>('[data-exhibit-stage]');
             const media = exhibit.querySelector<HTMLElement>('[data-exhibit-media]');
             const meter = exhibit.querySelector<HTMLElement>('[data-exhibit-progress]');
             if (!exhibitStage || !media) return;
+            const canPin = layout.exhibits[index];
+            exhibitStage.classList.toggle('is-pinned', canPin);
             const direction = index === 2 ? -1 : 1;
             const sequence = gsap.timeline({
               scrollTrigger: {
-                id: 'exhibit-' + index, trigger: exhibit, pin: exhibitStage,
-                start: 'top top', end: () => '+=' + Math.round(innerHeight * .75),
+                id: 'exhibit-' + index, trigger: exhibit, pin: canPin ? exhibitStage : false,
+                start: canPin ? 'top top' : 'top bottom', end: canPin ? () => '+=' + Math.round(innerHeight * .75) : 'bottom top',
                 scrub: .8, anticipatePin: 1, invalidateOnRefresh: true,
               },
             });
             sequence.fromTo(media,
-              { xPercent: direction * 8, rotateY: direction * -12, rotateX: 6, rotateZ: direction * -3, scale: .86 },
-              { xPercent: direction * -3, rotateY: direction * 2, rotateX: 0, rotateZ: 0, scale: 1.02, ease: 'none', duration: 1 }, 0);
+              { rotateY: direction * -4, rotateX: 2, rotateZ: direction * -1.2, scale: .96 },
+              { rotateY: direction, rotateX: 0, rotateZ: 0, scale: 1, ease: 'none', duration: 1 }, 0);
             if (meter) sequence.to(meter, { scaleX: 1, ease: 'none', duration: 1 }, 0);
           });
           document.querySelectorAll<HTMLElement>('[data-lab-scene]').forEach((scene) => {
@@ -111,8 +190,6 @@ function init() {
               });
             });
           });
-        } else {
-          ScrollTrigger.create({ trigger: cinema, start: 'top top', end: 'bottom bottom', onUpdate: (self) => showProgress(self.progress) });
         }
       });
       cleanMotion = () => {
@@ -132,6 +209,7 @@ function init() {
         else element.setAttribute('style', original);
       });
       cinema!.classList.remove('cinema-enhanced');
+      pinnedStages.forEach((element) => element.classList.remove('is-pinned'));
       acts.forEach((act) => { act.style.removeProperty('visibility'); act.style.removeProperty('opacity'); act.style.removeProperty('transform'); act.style.removeProperty('filter'); });
       console.warn('Scroll enhancement unavailable; readable layout retained.', error);
     }
@@ -150,7 +228,9 @@ function init() {
         }
       }).catch((error) => console.warn('3D enhancement unavailable; illustrated fallback retained.', error));
     }
-    requestAnimationFrame(() => ScrollTrigger.refresh());
+    ScrollTrigger.refresh();
+    restoreView(view);
+    stableView = rememberView();
   }
 
   const onContextLost = () => {
@@ -159,18 +239,43 @@ function init() {
     world = undefined;
   };
   canvas.addEventListener('webglcontextlost', onContextLost);
-  const onPreferenceChange = () => { overrideReduced = null; rebuildMotion(); };
+  const onPreferenceChange = () => { overrideReduced = null; rebuildMotion(true); };
   reduced.addEventListener('change', onPreferenceChange);
-  desktop.addEventListener('change', rebuildMotion);
-  toggle?.addEventListener('click', () => { overrideReduced = !(overrideReduced ?? reduced.matches); rebuildMotion(); });
+  const onResize = () => {
+    if (!resizing) resizeView = stableView ?? rememberView();
+    resizing = true;
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      ScrollTrigger.refresh();
+      if (measureLayout().key !== layoutKey) rebuildMotion(false, resizeView);
+      else if (innerWidth !== viewWidth) restoreView(resizeView);
+      viewWidth = innerWidth;
+      viewHeight = innerHeight;
+      resizing = false;
+      stableView = rememberView();
+      resizeView = undefined;
+    }, 120);
+  };
+  window.addEventListener('resize', onResize);
+  toggle?.addEventListener('click', () => { overrideReduced = !(overrideReduced ?? reduced.matches); rebuildMotion(true); });
+
+  function scrollToChapter(hash: string, behavior: ScrollBehavior = 'instant') {
+    const trigger = ScrollTrigger.getById('cinema');
+    const index = acts.findIndex((act) => '#' + act.id === hash);
+    if (!trigger?.pin || index < 0) return false;
+    window.scrollTo({ top: trigger.start + chapterProgress(index) * (trigger.end - trigger.start), behavior });
+    return true;
+  }
+  const onHashChange = () => { scrollToChapter(location.hash); };
+  const returningFromHistory = (performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined)?.type === 'back_forward';
+  window.addEventListener('hashchange', onHashChange);
 
   document.querySelectorAll<HTMLAnchorElement>('a[href="#construir"],a[href="#entregar"],a[href="#operar"]').forEach((link) => {
     link.addEventListener('click', (event) => {
-      const trigger = ScrollTrigger.getById('cinema');
-      const index = acts.findIndex((act) => '#' + act.id === link.getAttribute('href'));
-      if (!trigger || index < 0) return;
+      const hash = link.getAttribute('href') ?? '';
+      if (!scrollToChapter(hash, 'smooth')) return;
       event.preventDefault();
-      window.scrollTo({ top: trigger.start + (index / 3.55) * (trigger.end - trigger.start), behavior: 'smooth' });
+      history.pushState(null, '', hash);
     });
   });
 
@@ -208,28 +313,36 @@ function init() {
   dialog?.addEventListener('close', () => dialogImage?.removeAttribute('src'));
 
   document.querySelectorAll<HTMLImageElement>('.work-gallery img,.experiment-archive img').forEach((image) => {
-    if (!image.complete) image.addEventListener('load', () => ScrollTrigger.refresh(), { once: true });
+    if (!image.complete) image.addEventListener('load', onResize, { once: true });
   });
 
   rebuildMotion();
-  void document.fonts?.ready.then(() => ScrollTrigger.refresh());
+  void document.fonts?.ready.then(() => { onResize(); if (!returningFromHistory) requestAnimationFrame(onHashChange); });
+  if (!returningFromHistory) requestAnimationFrame(onHashChange);
   window.addEventListener('pagehide', (event) => {
+    if (event.persisted) cachedView = rememberView();
     generation += 1;
     cleanMotion();
     world?.dispose();
     world = undefined;
     cinema.classList.remove('cinema-enhanced', 'world-ready');
+    pinnedStages.forEach((element) => element.classList.remove('is-pinned'));
+    clearTimeout(resizeTimer);
+    cancelAnimationFrame(viewFrame);
+    resizing = false;
     // Keep lifecycle listeners when this document is stored in the back/forward cache.
     if (event.persisted) return;
     window.removeEventListener('scroll', updateHeader);
     reduced.removeEventListener('change', onPreferenceChange);
-    desktop.removeEventListener('change', rebuildMotion);
+    window.removeEventListener('resize', onResize);
+    window.removeEventListener('hashchange', onHashChange);
     canvas.removeEventListener('webglcontextlost', onContextLost);
   });
   window.addEventListener('pageshow', (event) => {
     if (!event.persisted) return;
     updateHeader();
-    rebuildMotion();
+    rebuildMotion(false, cachedView);
+    cachedView = undefined;
   });
 }
 
