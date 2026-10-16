@@ -12,6 +12,7 @@ const destinations: Record<string, { href: string; label: string }> = {
 const colors: Record<string, string> = { lime: '#d9f07c', cyan: '#8fe6ec', amber: '#f5bf7c', violet: '#c4adf4', coral: '#ff8c69' };
 ---
 
+<!--email_off-->
 <a class="skip-link" href="#trayectoria">Saltar al contenido profesional</a>
 <header class="masthead" data-header>
   <a class="wordmark" href="#inicio" aria-label="Andrus Díaz, inicio"><span class="monogram">a<span>↗</span>d</span><span>ANDRUS DÍAZ<small>MAKER / FOUNDER / SRE</small></span></a>
@@ -112,4 +113,5 @@ const colors: Record<string, string> = { lime: '#d9f07c', cyan: '#8fe6ec', amber
   <section class="contact-section" id="contacto"><div class="page-shell"><p class="kicker">ABRIR CANAL / SIN INTERMEDIARIOS</p><div class="contact-heading"><h2>La próxima idea<br/>puede empezar<br/><em>con un hola.</em></h2><span class="contact-arrow" aria-hidden="true">↗</span></div><p class="contact-description">¿Un producto por construir? ¿Una plataforma que necesita crecer? ¿Un sistema que dejó de ser claro? Hablemos de lo que tienes entre manos.</p><a class="contact-email" href={'mailto:' + email}>{email}<span aria-hidden="true">↗</span></a><div class="contact-options"><button type="button" data-copy-email data-email={email}>Copiar correo <span aria-hidden="true">⧉</span></button><span role="status" aria-live="polite" data-copy-status></span><a href="https://github.com/AndrusGerman/" target="_blank" rel="noopener noreferrer">GitHub / AndrusGerman ↗</a></div><div class="contact-meta"><span>ANDRUS DÍAZ / MAKER FOUNDER SRE</span><span>VENEZUELA · REMOTO · INTERNET</span></div></div></section>
 </main>
 <footer class="site-footer page-shell"><span>© {new Date().getFullYear()} ANDRUS DÍAZ</span><p>Construido con intención. Operado con cuidado.</p><a href="#inicio">Volver al origen ↑</a></footer>
+<!--/email_off-->
 <script>import '../scripts/cinematic-site';</script>
