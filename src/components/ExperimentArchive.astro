@@ -1,0 +1,46 @@
+---
+import { Image } from 'astro:assets';
+import bombona from '../assets/work/bombona-club.png';
+import bombonaDetail from '../assets/work/bombona-detail.png';
+import slime from '../assets/work/cronicas-slime.png';
+import aura from '../assets/work/aura-live.png';
+import poker from '../assets/work/planning-poker.png';
+import kazumi from '../assets/work/kazumi-sentinel.png';
+---
+
+<section class="experiment-archive" id="laboratorio" aria-labelledby="lab-title">
+  <div class="lab-intro page-shell"><p class="kicker">EL LABORATORIO / CONSTRUIR POR CURIOSIDAD</p><h2 id="lab-title">A veces, la idea<br/><em>solo pide jugar.</em></h2><p>Juegos, luz, colaboración y simulación.<br/>Experimentos que también dicen cómo pienso.</p><div class="lab-index"><a href="#bombona">Bombona Club</a><a href="#slime">Crónicas del Slime</a><a href="#aura">AuraMesh</a><a href="#poker">Planning Poker</a><a href="#kazumi">Kazumi Sentinel</a><a href="#fly-brain">Fly Brain</a></div></div>
+
+  <article class="lab-bombona" id="bombona">
+    <div class="lab-bombona-title page-shell"><p class="kicker">EXPERIMENTO / 01 / JUEGO INCREMENTAL</p><h3>Bombona<br/><em>Club.</em><span aria-hidden="true">✳</span></h3><p>Una bombona. Un barrio.<br/>Un pequeño imperio por construir.</p></div>
+    <div class="bombona-captures page-shell" data-lab-scene>
+      <a class="bombona-main" href="/projects/bombona-club.png" target="_blank" rel="noopener" data-image-viewer data-image-title="Bombona Club" data-image-alt="Captura de Bombona Club con recursos, radio y eventos de la cuadra"><Image src={bombona} alt="Bombona Club: recursos de gas, radio y decisiones del barrio" widths={[480, 960, bombona.width]} sizes="(max-width: 760px) 94vw, 78vw" format="webp" loading="lazy" data-lab-image/><span class="capture-zoom">AMPLIAR CAPTURA ↗</span></a>
+      <a class="bombona-detail" href="/projects/bombona-detail.png" target="_blank" rel="noopener" data-image-viewer data-image-title="Las decisiones de la cuadra" data-image-alt="Poderes, historias y logros de Bombona Club"><Image src={bombonaDetail} alt="Poderes, historias y logros de la cuadra en Bombona Club" widths={[480, 800]} sizes="(max-width: 760px) 78vw, 42vw" format="webp" loading="lazy" data-lab-image/><span>LAS DECISIONES TAMBIÉN SE GUARDAN ↗</span></a>
+    </div>
+    <div class="lab-notes page-shell"><p>Diseñé un incremental con humor venezolano, decisiones persistentes y un barrio que recuerda. La música se sintetiza en el navegador y el progreso se guarda en el dispositivo.</p><div><span>GAME DESIGN</span><span>GUARDADO LOCAL</span><span>AUDIO SINTETIZADO</span></div><small>CAPTURAS REALES / ARCHIVO DEL JUEGO</small></div>
+  </article>
+
+  <article class="lab-slime page-shell" id="slime">
+    <div class="slime-copy"><p class="kicker">EXPERIMENTO / 02 / RPG PROCEDURAL</p><h3>Un renacer.<br/><em>Otro mundo.</em></h3><h4>Crónicas del Slime — Génesis</h4><p>Construí un RPG de acción donde una semilla define el terreno. Biomas, aldeas, enemigos y evolución de habilidades: un mundo que cambia con cada renacer.</p><div class="lab-tech"><span>MUNDO PROCEDURAL</span><span>BIOMAS / SEMILLAS</span></div><small>CAPTURA REAL / ARCHIVO DEL JUEGO</small></div>
+    <a class="slime-screen" href="/projects/cronicas-slime.png" target="_blank" rel="noopener" data-image-viewer data-image-title="Crónicas del Slime — Génesis" data-image-alt="Captura completa del RPG con el personaje, misión, bioma y enemigos" data-lab-scene><div class="arcade-top"><span>CRÓNICAS DEL SLIME</span><span>GÉNESIS / GAME STUDY</span></div><Image src={slime} alt="RPG Crónicas del Slime: personaje, aldea, misión, enemigos y mapa" widths={[480, 800, slime.width]} sizes="(max-width: 760px) 94vw, 58vw" format="webp" loading="lazy" data-lab-image/><span class="capture-zoom">EXPLORAR LA CAPTURA ↗</span></a>
+  </article>
+
+  <article class="lab-aura" id="aura" data-lab-scene>
+    <div class="aura-image"><Image src={aura} alt="Demo real de AuraMesh: hilos luminosos y controles gestuales, sin activar la cámara" widths={[480, 960, 1440]} sizes="100vw" format="webp" loading="lazy" data-lab-image/></div>
+    <div class="aura-copy page-shell"><p class="kicker">EXPERIMENTO / 03 / GESTOS Y REFRACCIÓN</p><h3>La luz también<br/><em>se puede tocar.</em></h3><div><h4>AuraMesh</h4><p>Geometría luminosa que responde a las manos. Construí un estudio de refracción en Canvas 2D, con detección de gestos local y una demostración que funciona sin cámara.</p><a class="lab-action" href="https://aura-mesh.andrusdiaz.dev/" target="_blank" rel="noopener noreferrer">Entrar a la demo <span aria-hidden="true">↗</span></a><a class="lab-code" href="https://github.com/AndrusGerman/aura-mesh" target="_blank" rel="noopener noreferrer">Explorar el código ↗</a><a class="lab-code" href="/projects/aura-live.png" target="_blank" rel="noopener" data-image-viewer data-image-title="AuraMesh · demo sin cámara" data-image-alt="Captura real de la demostración sin cámara de AuraMesh">Ampliar captura ↗</a><small>CAPTURA REAL DE LA DEMO / LA CÁMARA ES OPCIONAL</small></div></div>
+  </article>
+
+  <article class="lab-poker" id="poker">
+    <div class="poker-heading page-shell"><p class="kicker">EXPERIMENTO / 04 / COLABORACIÓN EN TIEMPO REAL</p><h3>Distintas miradas.<br/><em>Una misma mesa.</em></h3><div><h4>Planning Poker</h4><p>Construí una herramienta para estimar historias en equipo. Un WebSocket por participante; el estado de la sala se replica en los navegadores y puede recuperarse sin base de datos ni Redis.</p><a class="lab-action" href="https://planning-poker-449229867988.us-central1.run.app/" target="_blank" rel="noopener noreferrer">Abrir Planning Poker <span aria-hidden="true">↗</span></a></div></div>
+    <div class="poker-stage page-shell" data-lab-scene><div class="poker-cards" aria-hidden="true"><i>?</i><i>3</i><i>5</i><i>8</i></div><a href="/projects/planning-poker.png" target="_blank" rel="noopener" data-image-viewer data-image-title="Agnostiko Planning Poker" data-image-alt="Captura pública de Planning Poker con creación de sala y cartas de estimación"><Image src={poker} alt="Pantalla pública de Planning Poker con creación o acceso a sala y cartas" widths={[480, 960, poker.width]} sizes="(max-width: 760px) 94vw, 76vw" format="webp" loading="lazy" data-lab-image/><span class="capture-zoom">AMPLIAR CAPTURA ↗</span></a><p>ESTIMACIÓN COLABORATIVA / NEXT.JS / WEBSOCKETS / CLOUD RUN</p></div>
+  </article>
+
+  <article class="lab-kazumi page-shell" id="kazumi"><div><p class="kicker">EXPERIMENTO / 05 / RESEARCH</p><h3>Observar.<br/>Validar.<br/><em>Simular.</em></h3><h4>Kazumi Sentinel</h4><p>Un sistema de investigación de mercado para explorar señales y ensayar decisiones en modo paper. La captura pertenece a una simulación.</p><span class="paper-label">PAPER / RESULTADOS SIMULADOS</span></div><a href="/projects/kazumi-sentinel.png" target="_blank" rel="noopener" data-image-viewer data-image-title="Kazumi Sentinel · modo paper" data-image-alt="Panel histórico de Kazumi Sentinel con resultados explícitamente simulados" data-lab-scene><Image src={kazumi} alt="Panel de Kazumi Sentinel identificado como PAPER y resultados simulados" widths={[480, 960, kazumi.width]} sizes="(max-width: 760px) 94vw, 62vw" format="webp" loading="lazy" data-lab-image/><span class="capture-zoom">VER CAPTURA DE ARCHIVO ↗</span></a></article>
+
+  <article class="lab-fly page-shell" id="fly-brain"><p class="kicker">DEL ARCHIVO / 06 / CÓDIGO ABIERTO</p><div><h3>Fly<br/><em>Brain.</em></h3><div><p>Un prototipo de simulación de conectoma: estímulos de luz y olor conectados con una arena 2D y un entorno 3D local.</p><pre tabindex="0" aria-label="Ejemplo de uso de Fly Brain"><code>brain = FlyBrain.load_default(device="cuda")
+readout = brain.step(SensoryDrive(
+    visual_left=0.8, olfactory_right=0.3
+))</code></pre><a class="lab-action" href="https://github.com/AndrusGerman/fly-brain" target="_blank" rel="noopener noreferrer">Explorar el prototipo <span aria-hidden="true">↗</span></a><small>PROTOTIPO LOCAL / PYTHON + ESCENAS 2D/3D</small></div></div></article>
+</section>
+
+<dialog class="image-viewer" data-image-dialog aria-labelledby="image-viewer-title"><button type="button" data-close-image aria-label="Cerrar captura">Cerrar <span aria-hidden="true">×</span></button><div><h2 id="image-viewer-title" data-image-dialog-title></h2><img alt="" data-image-dialog-content/><p data-image-dialog-caption></p></div></dialog>

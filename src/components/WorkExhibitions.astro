@@ -1,0 +1,45 @@
+---
+import { Image } from 'astro:assets';
+import kaidoImage from '../assets/work/kaido-group.png';
+import pabiloImage from '../assets/work/pabilo.png';
+import linkoImage from '../assets/work/linko-live.png';
+interface Project { id: string; eyebrow: string; title: string; description: string; stack: string; status: string; accent: string }
+interface Props { projects: Project[] }
+const { projects } = Astro.props;
+const features = [
+  { key: 'kaido', project: projects.find(p => p.title === 'Kaido')!, name: 'Kaido Group', lead: 'Un lugar para\nconstruir.', role: 'FUNDADOR / PRODUCTO / PLATAFORMA', image: kaidoImage, full: '/projects/kaido-group.png', alt: 'Página pública de Kaido Group con su laboratorio de productos', url: 'https://kaidogroup.tech/', caption: 'CAPTURA DEL SITIO / KAIDO GROUP', note: 'De la idea al producto. Y del producto a una base que lo sostenga.' },
+  { key: 'pabilo', project: projects.find(p => p.title === 'Pabilo')!, name: 'Pabilo', lead: 'Del pago\na la certeza.', role: 'CREADOR / VERIFICACIÓN DE PAGOS', image: pabiloImage, full: '/projects/pabilo.png', alt: 'Página pública de Pabilo, sistema de verificación de pagos para Venezuela', url: 'https://pabilo.app/', caption: 'CAPTURA DEL PRODUCTO / PABILO', note: 'Backend, panel, API e integraciones para cerrar el recorrido de un pago.' },
+  { key: 'linko', project: projects.find(p => p.title === 'linko.store')!, name: 'linko.store', lead: 'La operación\ntiene que fluir.', role: 'PRODUCTO / VENTAS E INVENTARIO', image: linkoImage, full: '/projects/linko-live.png', alt: 'Pantalla pública de bienvenida y acceso a Linko, sin datos de clientes', url: 'https://linko.store/', caption: 'CAPTURA PÚBLICA / ACCESO A LINKO', note: 'Una interfaz para trabajar. Un backend preparado para seguir creciendo.' },
+];
+const identity = projects.find(p => p.title === 'Kroma')!;
+const observability = projects.find(p => p.title === 'Agnostiko')!;
+---
+
+<section class="work-gallery" id="proyectos" aria-labelledby="work-title">
+  <div class="work-intro page-shell">
+    <p class="kicker">EL TRABAJO / DEL OTRO LADO DEL DEPLOY</p>
+    <div><h2 id="work-title">Ahora sí.<br/><em>Entra a ver.</em></h2><p>Productos que construyo y opero.<br/>Cada uno tiene su problema, su forma y su historia.</p></div>
+    <nav class="work-jumps" aria-label="Explorar el trabajo"><a href="#caso-kaido">01 / Kaido</a><a href="#caso-pabilo">02 / Pabilo</a><a href="#caso-linko">03 / Linko</a><a href="#laboratorio">Ir al laboratorio <span aria-hidden="true">↘</span></a></nav>
+  </div>
+  {features.map((feature, index) => (
+    <article class={'work-exhibit exhibit--' + feature.key} id={'caso-' + feature.key} data-work-exhibit>
+      <div class="exhibit-stage" data-exhibit-stage>
+        <div class="exhibit-coordinate"><span>CASO / 0{index + 1}</span><span>{feature.role}</span></div>
+        <div class="exhibit-watermark" aria-hidden="true">{feature.name}</div>
+        <a class="exhibit-media" href={feature.full} target="_blank" rel="noopener" data-exhibit-media data-image-viewer data-image-alt={feature.alt} data-image-title={feature.name} aria-label={'Ampliar captura de ' + feature.name}>
+          <div class="capture-chrome" aria-hidden="true"><i></i><i></i><i></i><span>{new URL(feature.url).hostname}</span><b>↗</b></div>
+          <Image src={feature.image} alt={feature.alt} widths={[480, 960, feature.image.width]} sizes="(max-width: 760px) 94vw, 76vw" format="webp" loading="lazy" decoding="async" />
+          <span class="capture-zoom">AMPLIAR CAPTURA <span aria-hidden="true">↗</span></span>
+        </a>
+        <div class="exhibit-copy page-shell"><p class="exhibit-name">{feature.name}</p><h3>{feature.lead.split('\n').map((line, i) => i === 0 ? <>{line}<br/></> : <em>{line}</em>)}</h3><p class="exhibit-description">{feature.project.description}</p><a class="exhibit-link" href={feature.url} target="_blank" rel="noopener noreferrer">Explorar {feature.name} <span aria-hidden="true">↗</span></a></div>
+        <div class="exhibit-footer"><p>{feature.note}</p><span>{feature.project.stack}</span><small>{feature.caption}</small></div>
+        <div class="exhibit-travel" aria-hidden="true"><i data-exhibit-progress></i></div>
+      </div>
+    </article>
+  ))}
+  <div class="systems-after page-shell">
+    <div class="systems-heading"><p class="kicker">LO QUE SOSTIENE LA EXPERIENCIA</p><h3>También construyo<br/><em>lo que no se ve.</em></h3></div>
+    <article class="identity-story"><div class="identity-diagram" aria-hidden="true"><span class="identity-core">K</span><div><i>PRODUCTO</i><b>↔</b><i>IDENTIDAD</i><b>↔</b><i>ACCESO</i></div><small>ESQUEMA CONCEPTUAL / KROMA</small></div><div><p class="kicker">IDENTIDAD / ECOSISTEMA</p><h4>{identity.title}</h4><p>{identity.description}</p><span>{identity.stack}</span></div></article>
+    <article class="observability-story"><div><p class="kicker">OPERAR / OBSERVAR / RESPONDER</p><h4>{observability.title}</h4><p>{observability.description}</p><span>{observability.stack}</span></div><div class="signal-map" aria-hidden="true"><span>HTTP / gRPC</span><div><i>APLICACIÓN</i><b>→</b><i>TELEMETRÍA</i><b>→</b><i>CONTEXTO</i></div><div class="signal-bars">{[38, 66, 47, 88, 57, 74, 42, 94, 64, 51, 82, 43].map(h => <i style={{height:h+'%'}}></i>)}</div><small>REPRESENTACIÓN CONCEPTUAL / SIN MÉTRICAS EN VIVO</small></div></article>
+  </div>
+</section>

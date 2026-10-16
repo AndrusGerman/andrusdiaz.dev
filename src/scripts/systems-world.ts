@@ -415,9 +415,13 @@ export function createSystemsWorld(canvas: HTMLCanvasElement): SystemsWorld {
     packets.instanceMatrix.needsUpdate = true;
   }
 
-  function render() {
+  function render(requireFirstFrame = false) {
     if (renderer.getContext().isContextLost()) {
-      throw new Error('The systems world WebGL context is unavailable.');
+      contextLost = true;
+      if (requireFirstFrame) throw new Error('The systems world WebGL context is unavailable.');
+      // The native contextlost event can arrive after the next animation frame.
+      // Stop drawing immediately and let that event restore the SVG fallback.
+      return false;
     }
     renderer.render(scene, camera);
     if (!ready) {
@@ -425,6 +429,7 @@ export function createSystemsWorld(canvas: HTMLCanvasElement): SystemsWorld {
       canvas.dataset.systemsReady = 'true';
       canvas.dispatchEvent(new CustomEvent('systems-world-ready'));
     }
+    return true;
   }
   function canRun() {
     return !disposed && !contextLost && inViewport && !document.hidden;
@@ -435,7 +440,7 @@ export function createSystemsWorld(canvas: HTMLCanvasElement): SystemsWorld {
     const delta = lastTime ? Math.min((time - lastTime) / 1000, 0.05) : 0;
     lastTime = time;
     animateDetails(delta);
-    render();
+    if (!render()) return;
     frame = requestAnimationFrame(tick);
   }
   function syncLoop() {
@@ -511,7 +516,7 @@ export function createSystemsWorld(canvas: HTMLCanvasElement): SystemsWorld {
     resize();
     animateDetails(0);
     // Synchronous first frame: callers can safely replace their SVG fallback on return.
-    render();
+    render(true);
     resizeObserver.observe(canvas);
     intersectionObserver.observe(canvas);
     document.addEventListener('visibilitychange', onVisibility);

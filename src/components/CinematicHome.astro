@@ -1,22 +1,19 @@
 ---
+import WorkExhibitions from './WorkExhibitions.astro';
+import ExperimentArchive from './ExperimentArchive.astro';
+import '../styles/work-exhibits.css';
 interface Experience { period: string; company: string; location: string; role: string; summary: string; details: string[]; accent: string }
 interface Project { id: string; eyebrow: string; title: string; description: string; stack: string; status: string; accent: string }
 interface Props { experience: Experience[]; projects: Project[]; stackGroups: string[][] }
 const { experience, projects, stackGroups } = Astro.props;
 const email = 'contacto@andrusdiaz.dev';
-const destinations: Record<string, { href: string; label: string }> = {
-  'Kaido': { href: 'https://kaidogroup.tech', label: 'Explorar Kaido' },
-  'linko.store': { href: 'https://linko.store', label: 'Visitar linko.store' },
-  'Pabilo': { href: 'https://pabilo.app', label: 'Conocer Pabilo' },
-};
-const colors: Record<string, string> = { lime: '#d9f07c', cyan: '#8fe6ec', amber: '#f5bf7c', violet: '#c4adf4', coral: '#ff8c69' };
 ---
 
 <!--email_off-->
 <a class="skip-link" href="#trayectoria">Saltar al contenido profesional</a>
 <header class="masthead" data-header>
   <a class="wordmark" href="#inicio" aria-label="Andrus Díaz, inicio"><span class="monogram">a<span>↗</span>d</span><span>ANDRUS DÍAZ<small>MAKER / FOUNDER / SRE</small></span></a>
-  <nav class="main-nav" aria-label="Navegación principal"><a href="#proyectos">Proyectos</a><a href="#trayectoria">Trayectoria</a></nav>
+  <nav class="main-nav" aria-label="Navegación principal"><a href="#proyectos">Proyectos</a><a href="#laboratorio">Laboratorio</a><a href="#trayectoria">Trayectoria</a></nav>
   <button class="motion-toggle" type="button" data-motion-toggle aria-pressed="false" aria-label="Reducir movimiento"><span aria-hidden="true">Ⅱ</span><span class="motion-label">Pausar movimiento</span></button>
   <a class="header-contact" href={'mailto:' + email}><span class="desktop-email">{email}</span><span class="mobile-contact">Hablemos</span><span aria-hidden="true">↗</span></a>
 </header>
@@ -75,32 +72,8 @@ const colors: Record<string, string> = { lime: '#d9f07c', cyan: '#8fe6ec', amber
     </div>
   </section>
 
-  <section class="work-section" id="proyectos">
-    <div class="work-heading page-shell"><p class="kicker">EN EL CAMPO / PROYECTOS SELECCIONADOS</p><div><h2>No son demos.<br/><em>Son sistemas.</em></h2><p>Producto, plataforma y operación.<br/>Distintas piezas de una misma forma de trabajar.</p></div></div>
-    <div class="projects-window" data-projects-window>
-      <div class="projects-track" data-projects-track>
-        {projects.map((project) => (
-          <article class:list={['case-card', 'tone-' + project.accent]} style={{ '--case-color': colors[project.accent] }}>
-            <div class="case-top"><span>PROYECTO / {project.id}</span><span>{project.eyebrow}</span></div>
-            <div class="case-art" aria-hidden="true">
-              <span class="case-watermark">{project.title === 'linko.store' ? 'linko' : project.title}</span>
-              <div class="artifact-window"><div class="artifact-toolbar"><span></span><span></span><span></span><b>{project.title.toLowerCase()} / system</b></div>
-                {project.title === 'Kaido' ? <div class="artifact-topology"><i>PRODUCTO</i><span>↓</span><div><b>IDENTIDAD</b><b>PAGOS</b><b>DATOS</b></div><span>↓</span><i class="artifact-foundation">PLATAFORMA / K3S</i></div>
-                : project.title === 'linko.store' ? <div class="artifact-store"><div><span>Inventario</span><strong>Todo en su lugar.</strong></div><section>{[36,66,49,84,59,97,78].map((h)=><i style={{height:h+'%'}}></i>)}</section><footer>VENTAS / INVENTARIO / EQUIPOS <b>↗</b></footer></div>
-                : project.title === 'Pabilo' ? <div class="artifact-payment"><span class="payment-check">✓</span><strong>Pago verificado.</strong><p>Una respuesta clara.<br/>Detrás, las integraciones correctas.</p><div>TRANSFERENCIA → API → CONFIRMACIÓN</div></div>
-                : project.title === 'Kroma' ? <div class="artifact-identity"><span>◈</span><strong>Una identidad.<br/>Todo un ecosistema.</strong><div>SESIÓN <i>→</i> ACCESO <i>→</i> CONFIANZA</div></div>
-                : <div class="artifact-trace"><span>TRACE / SERVICE MAP</span>{[62,83,46,73].map((w,i)=><div><b>0{i+1}</b><i style={{width:w+'%'}}></i></div>)}<footer>CONTEXTO ANTES QUE RUIDO.</footer></div>}
-              </div>
-              <span class="case-art-caption">INTERPRETACIÓN VISUAL DEL SISTEMA</span>
-            </div>
-            <div class="case-content"><h3>{project.title}</h3><p>{project.description}</p></div>
-            <div class="case-bottom"><span>{project.stack}</span>{destinations[project.title] ? <a href={destinations[project.title].href} target="_blank" rel="noopener noreferrer">{destinations[project.title].label} <span aria-hidden="true">↗</span></a> : <a href={'mailto:' + email + '?subject=' + encodeURIComponent('Hablemos de ' + project.title)}>Hablemos del proyecto <span aria-hidden="true">↗</span></a>}</div>
-          </article>
-        ))}
-      </div>
-    </div>
-    <div class="work-end page-shell"><span>CADA PRODUCTO ES UNA DECISIÓN LLEVADA A LA PRÁCTICA.</span><a href={'mailto:' + email}>¿Tienes algo entre manos? <b>Hablemos ↗</b></a></div>
-  </section>
+  <WorkExhibitions projects={projects} />
+  <ExperimentArchive />
 
   <section id="trayectoria" class="experience-section">
     <div class="page-shell"><p class="kicker">TRAYECTORIA / LO QUE ME TRAJO HASTA AQUÍ</p><div class="experience-heading"><h2>Menos teoría.<br/><em>Más terreno.</em></h2><p>Producto, backend e infraestructura.<br/>La perspectiva cambia; la responsabilidad permanece.</p></div>

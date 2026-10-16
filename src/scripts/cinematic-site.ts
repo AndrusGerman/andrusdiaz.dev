@@ -10,11 +10,11 @@ function init() {
   const stage = document.querySelector<HTMLElement>('[data-cinema-stage]');
   const canvas = document.querySelector<HTMLCanvasElement>('#systems-world');
   const projects = document.querySelector<HTMLElement>('#proyectos');
-  const viewport = document.querySelector<HTMLElement>('[data-projects-window]');
-  const track = document.querySelector<HTMLElement>('[data-projects-track]');
   const toggle = document.querySelector<HTMLButtonElement>('[data-motion-toggle]');
-  if (!cinema || !stage || !canvas || !projects || !viewport || !track) return;
+  if (!cinema || !stage || !canvas || !projects) return;
   const acts = Array.from(cinema.querySelectorAll<HTMLElement>('[data-act]'));
+  const pinnedStages = [stage, ...document.querySelectorAll<HTMLElement>('[data-exhibit-stage]')];
+  const originalStageStyles = new Map(pinnedStages.map((element) => [element, element.getAttribute('style')]));
   const header = document.querySelector<HTMLElement>('[data-header]');
   const progressBar = document.querySelector<HTMLElement>('[data-cinema-progress]');
   const chapterLabel = document.querySelector<HTMLElement>('[data-chapter-index]');
@@ -49,8 +49,6 @@ function init() {
     world?.dispose();
     world = undefined;
     cinema!.classList.remove('cinema-enhanced', 'world-ready');
-    projects!.classList.remove('projects-enhanced');
-    viewport!.scrollLeft = 0;
     const isReduced = overrideReduced ?? reduced.matches;
     document.documentElement.dataset.motion = isReduced ? 'reduced' : 'full';
     toggle?.setAttribute('aria-pressed', String(isReduced));
@@ -65,9 +63,9 @@ function init() {
     }
 
     let context: gsap.Context | undefined;
-    let focusHandler: ((event: FocusEvent) => void) | undefined;
     try {
-      context = gsap.context(() => {
+      context = gsap.context(() => {});
+      context.add(() => {
         if (desktop.matches) {
           cinema!.classList.add('cinema-enhanced');
           gsap.set(acts, { autoAlpha: 0 });
@@ -87,46 +85,53 @@ function init() {
           }
           story.to({}, { duration: .4 }, 3.15);
 
-          projects!.classList.add('projects-enhanced');
-          const distance = () => Math.max(0, track!.scrollWidth - viewport!.clientWidth);
-          const rail = gsap.to(viewport, {
-            scrollLeft: distance, ease: 'none',
-            scrollTrigger: {
-              id: 'projects', trigger: viewport, start: 'top top',
-              end: () => '+=' + Math.max(window.innerHeight, distance() * 1.1),
-              pin: true, scrub: .65, anticipatePin: 1, invalidateOnRefresh: true,
-              onUpdate: () => {
-                track!.querySelectorAll<HTMLElement>('.artifact-window').forEach((art) => {
-                  const card = art.closest<HTMLElement>('.case-card');
-                  if (!card) return;
-                  const x = (card.getBoundingClientRect().left + card.clientWidth / 2) / window.innerWidth - .5;
-                  art.style.transform = 'perspective(900px) rotateY(' + (-x * 18) + 'deg) rotateX(7deg) rotateZ(' + (-x * 5) + 'deg)';
-                });
+          document.querySelectorAll<HTMLElement>('[data-work-exhibit]').forEach((exhibit, index) => {
+            const exhibitStage = exhibit.querySelector<HTMLElement>('[data-exhibit-stage]');
+            const media = exhibit.querySelector<HTMLElement>('[data-exhibit-media]');
+            const meter = exhibit.querySelector<HTMLElement>('[data-exhibit-progress]');
+            if (!exhibitStage || !media) return;
+            const direction = index === 2 ? -1 : 1;
+            const sequence = gsap.timeline({
+              scrollTrigger: {
+                id: 'exhibit-' + index, trigger: exhibit, pin: exhibitStage,
+                start: 'top top', end: () => '+=' + Math.round(innerHeight * .75),
+                scrub: .8, anticipatePin: 1, invalidateOnRefresh: true,
               },
-            },
+            });
+            sequence.fromTo(media,
+              { xPercent: direction * 8, rotateY: direction * -12, rotateX: 6, rotateZ: direction * -3, scale: .86 },
+              { xPercent: direction * -3, rotateY: direction * 2, rotateX: 0, rotateZ: 0, scale: 1.02, ease: 'none', duration: 1 }, 0);
+            if (meter) sequence.to(meter, { scaleX: 1, ease: 'none', duration: 1 }, 0);
           });
-          focusHandler = (event) => {
-            const target = event.target;
-            const card = target instanceof HTMLElement ? target.closest<HTMLElement>('.case-card') : null;
-            const trigger = rail.scrollTrigger;
-            if (!card || !trigger || !distance()) return;
-            const ratio = Math.min(1, Math.max(0, (card.offsetLeft - 56) / distance()));
-            window.scrollTo({ top: trigger.start + ratio * (trigger.end - trigger.start), behavior: 'instant' });
-          };
-          viewport!.addEventListener('focusin', focusHandler);
+          document.querySelectorAll<HTMLElement>('[data-lab-scene]').forEach((scene) => {
+            scene.querySelectorAll<HTMLElement>('[data-lab-image]').forEach((image) => {
+              gsap.fromTo(image, { y: 18 }, {
+                y: -18, ease: 'none',
+                scrollTrigger: { trigger: scene, start: 'top bottom', end: 'bottom top', scrub: .8 },
+              });
+            });
+          });
         } else {
           ScrollTrigger.create({ trigger: cinema, start: 'top top', end: 'bottom bottom', onUpdate: (self) => showProgress(self.progress) });
         }
       });
       cleanMotion = () => {
-        if (focusHandler) viewport!.removeEventListener('focusin', focusHandler);
         context?.revert();
-        track!.querySelectorAll<HTMLElement>('.artifact-window').forEach((art) => art.style.removeProperty('transform'));
       };
     } catch (error) {
       context?.revert();
+      ScrollTrigger.getAll().forEach((trigger) => {
+        if (pinnedStages.includes(trigger.pin as HTMLElement)) trigger.kill(true);
+      });
+      // A constructor failure can leave a spacer before ScrollTrigger registers it.
+      pinnedStages.forEach((element) => {
+        const spacer = element.parentElement;
+        if (spacer?.classList.contains('pin-spacer')) spacer.replaceWith(element);
+        const original = originalStageStyles.get(element);
+        if (original == null) element.removeAttribute('style');
+        else element.setAttribute('style', original);
+      });
       cinema!.classList.remove('cinema-enhanced');
-      projects!.classList.remove('projects-enhanced');
       acts.forEach((act) => { act.style.removeProperty('visibility'); act.style.removeProperty('opacity'); act.style.removeProperty('transform'); act.style.removeProperty('filter'); });
       console.warn('Scroll enhancement unavailable; readable layout retained.', error);
     }
@@ -181,6 +186,31 @@ function init() {
     }).catch(() => { if (status) status.textContent = 'Puedes escribir a contacto@andrusdiaz.dev.'; });
   });
 
+  const dialog = document.querySelector<HTMLDialogElement>('[data-image-dialog]');
+  const dialogImage = dialog?.querySelector<HTMLImageElement>('[data-image-dialog-content]');
+  const dialogTitle = dialog?.querySelector<HTMLElement>('[data-image-dialog-title]');
+  const dialogCaption = dialog?.querySelector<HTMLElement>('[data-image-dialog-caption]');
+  document.querySelectorAll<HTMLAnchorElement>('[data-image-viewer]').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      if (!dialog || !dialogImage || !dialog.showModal || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      const url = new URL(link.href);
+      if (url.origin !== location.origin) return;
+      event.preventDefault();
+      dialogImage.src = url.href;
+      dialogImage.alt = link.dataset.imageAlt ?? link.querySelector('img')?.alt ?? 'Captura del proyecto';
+      if (dialogTitle) dialogTitle.textContent = link.dataset.imageTitle ?? 'Captura del proyecto';
+      if (dialogCaption) dialogCaption.textContent = dialogImage.alt;
+      dialog.showModal();
+    });
+  });
+  dialog?.querySelector('[data-close-image]')?.addEventListener('click', () => dialog.close());
+  dialog?.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
+  dialog?.addEventListener('close', () => dialogImage?.removeAttribute('src'));
+
+  document.querySelectorAll<HTMLImageElement>('.work-gallery img,.experiment-archive img').forEach((image) => {
+    if (!image.complete) image.addEventListener('load', () => ScrollTrigger.refresh(), { once: true });
+  });
+
   rebuildMotion();
   void document.fonts?.ready.then(() => ScrollTrigger.refresh());
   window.addEventListener('pagehide', (event) => {
@@ -189,7 +219,6 @@ function init() {
     world?.dispose();
     world = undefined;
     cinema.classList.remove('cinema-enhanced', 'world-ready');
-    projects.classList.remove('projects-enhanced');
     // Keep lifecycle listeners when this document is stored in the back/forward cache.
     if (event.persisted) return;
     window.removeEventListener('scroll', updateHeader);
