@@ -11,7 +11,7 @@ resources:
 images:
   - name: andrusdiaz-home
     newName: southamerica-east1-docker.pkg.dev/gen-lang-client-0331944990/kaido-group/andrusdiaz
-    digest: sha256:e2ceabf1b2515747578750b78ac5a04175733f21de526632e385aabca00827f8
+    digest: sha256:e43b11d6e1b116ad22b47752aa316701e263d834b220b682ac6f29e250a0e2d2
   - name: bombona
     newName: southamerica-east1-docker.pkg.dev/gen-lang-client-0331944990/kaido-group/bombona
     newTag: kaido-20260919-bombona-1
